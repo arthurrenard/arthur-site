@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arthur Renard — Math · AI · Finance</title>
+  <meta name="description" content="Arthur Renard — UC Berkeley Applied Math & Data Science student, AI-native builder and analyst. Building, analyzing, and shipping across math, AI, and finance." />
+  <meta property="og:title" content="Arthur Renard — Math · AI · Finance" />
+  <meta property="og:description" content="AI-native builder and analyst working across math, AI, and finance." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style id="tweak-overrides">
+    /* Horizontal-drift controls (driven by the Tweaks panel) */
+    :root { --h-drift-dur: 1.8s; --h-drift-dist: 64px; }
+    .reveal[data-drift="left"]  { --drift: calc(var(--h-drift-dist) * -1); }
+    .reveal[data-drift="right"] { --drift: var(--h-drift-dist); }
+    .reveal[data-drift="left"],
+    .reveal[data-drift="right"] {
+      transition: opacity 0.9s var(--ease-out), transform var(--h-drift-dur) var(--ease-out);
+    }
+
+    /* Hero fills the viewport; scroll hint sits near the bottom. */
+    .hero {
+      min-height: var(--hero-min, 100vh);
+      display: flex;
+      flex-direction: column;
+      padding-top: clamp(118px, 15vh, 175px);
+      padding-bottom: 34px;
+      overflow-x: clip;
+    }
+    .hero > .hero-grid {
+      flex: 1 1 auto;
+      /* Widen the portrait column so the headshot fills the dead space */
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 1.02fr);
+      gap: clamp(28px, 4vw, 64px);
+      align-items: center;
+    }
+    .hero .scroll-hint { margin: 16px auto 0; }
+
+    /* Big headshot: fills its (wide) column; height follows the ratio knob,
+       capped so it never overruns the hero. Double-click a filled slot to
+       reposition the crop. */
+    .hero-portrait { max-width: none; width: 100%; justify-self: stretch; }
+    .portrait-slot {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / var(--portrait-ratio, 1.3);
+      max-height: calc(var(--hero-min, 100vh) - 150px);
+    }
+
+    @media (max-width: 860px) {
+      .hero { min-height: 0; padding-top: clamp(120px, 18vh, 160px); }
+      .hero > .hero-grid { grid-template-columns: 1fr; }
+      .hero-portrait { max-width: 440px; justify-self: center; margin: 0 auto 10px; }
+      .portrait-slot { max-height: none; }
+    }
+
+    /* ---- Tweaks panel (sage glass, hidden until toggled) ---- */
+    .tweaks-panel {
+      position: fixed;
+      right: 20px; bottom: 20px;
+      width: 304px;
+      z-index: 300;
+      display: none;
+      padding: 20px 20px 18px;
+      border-radius: 22px;
+      color: var(--white);
+      background: rgba(52, 63, 48, 0.62);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      box-shadow: var(--shadow-deep), inset 0 1px 0 var(--glass-edge);
+      font-family: var(--font);
+    }
+    .tweaks-panel.open { display: block; animation: tw-in 0.3s var(--ease-out); }
+    @keyframes tw-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .tw-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .tw-title { font-size: 15px; font-weight: 600; letter-spacing: 0.01em; }
+    .tw-close {
+      width: 28px; height: 28px; border-radius: 9px; cursor: pointer;
+      display: grid; place-items: center; font-size: 17px; line-height: 1;
+      color: var(--white); background: rgba(255,255,255,0.08);
+      border: 1px solid var(--glass-border); transition: background 0.25s;
+    }
+    .tw-close:hover { background: rgba(255,255,255,0.16); }
+    .tw-group { padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12); }
+    .tw-group:first-of-type { border-top: none; padding-top: 4px; }
+    .tw-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+    .tw-row label { font-size: 13.5px; color: var(--white-soft); }
+    .tw-val {
+      font-size: 12.5px; font-weight: 600; color: var(--ink-on-light);
+      background: var(--sage-light); padding: 2px 9px; border-radius: 100px;
+    }
+    .tweaks-panel input[type="range"] {
+      -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+      border-radius: 100px; background: rgba(255,255,255,0.16);
+      accent-color: var(--sage-light); outline: none; cursor: pointer;
+    }
+    .tweaks-panel input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+      border-radius: 50%; background: var(--sage-light);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4); cursor: pointer;
+    }
+    .tweaks-panel input[type="range"]::-moz-range-thumb {
+      width: 16px; height: 16px; border: none; border-radius: 50%;
+      background: var(--sage-light); box-shadow: 0 2px 6px rgba(0,0,0,0.4); cursor: pointer;
+    }
+    .tw-scale { display: flex; justify-content: space-between; margin-top: 7px; font-size: 11px; color: var(--white-faint); }
+    .tw-note { margin: 12px 0 0; font-size: 12px; line-height: 1.45; color: var(--white-faint); }
+    @media (max-width: 520px) { .tweaks-panel { left: 16px; right: 16px; width: auto; } }
+  </style>
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grain"></div>
+  <div class="scroll-progress"></div>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="monogram">AR</span>
+      <span class="brand-name">Arthur Renard</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="work.html">Work</a>
+      <a href="connect.html">Connect</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero section-pad" data-screen-label="Home — Hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow reveal" data-drift="left">UC Berkeley · Applied Math &amp; Data Science</span>
+          <h1 class="reveal" data-drift="left" data-delay="1">Arthur<br />Renard</h1>
+          <p class="lead hero-line reveal" data-drift="left" data-delay="2">
+            Math&#8202;<span class="dot">·</span>&#8202;AI&#8202;<span class="dot">·</span>&#8202;Finance<br />Building, analyzing, computing, &amp; shipping.
+          </p>
+          <div class="hero-cta reveal" data-drift="left" data-delay="3">
+            <a class="btn btn-primary" href="connect.html">Connect <span class="arr">→</span></a>
+            <a class="btn btn-ghost" href="work.html">See the work</a>
+          </div>
+        </div>
+
+        <div class="hero-portrait reveal" data-drift="right" data-delay="2">
+          <div class="portrait-glow"></div>
+          <image-slot id="portrait" class="portrait-slot" shape="rounded" radius="26"
+            placeholder="Drop the white-shirt portrait"></image-slot>
+          <div class="portrait-badge glass">
+            <span class="badge-dot"></span> Class of 2029 · GPA 3.83
+          </div>
+        </div>
+      </div>
+      <div class="scroll-hint reveal" data-drift="up" data-delay="4">
+        <span>Scroll</span>
+        <span class="scroll-rail"><span class="scroll-bead"></span></span>
+      </div>
+    </section>
+
+    <!-- ============ THREE PILLARS ============ -->
+    <section class="section-pad pillars" data-screen-label="Home — Pillars">
+      <div class="wrap">
+        <div class="sec-head reveal" data-drift="left">
+          <span class="eyebrow">Three pillars</span>
+          <h2>Different fields,<br /><span class="muted">same curiosity.</span></h2>
+        </div>
+        <div class="pillar-grid">
+          <article class="glass pillar reveal" data-drift="up" data-delay="1">
+            <div class="pillar-tag">01</div>
+            <h3>Math</h3>
+            <p>Applied Math &amp; Data Science at UC Berkeley. I work diligently to build real mathematical grounding under everything I build.</p>
+          </article>
+          <article class="glass pillar reveal" data-drift="up" data-delay="2">
+            <div class="pillar-tag">02</div>
+            <h3>AI</h3>
+            <p>AI-native builder for 4 years and child-safety contributor. I ship with Claude, Codex, Ollama, and OpenCode.</p>
+          </article>
+          <article class="glass pillar reveal" data-drift="up" data-delay="3">
+            <div class="pillar-tag">03</div>
+            <h3>Finance</h3>
+            <p>DCF, LBO, and modeling + Microfinance at Berkeley &amp; the Private Equity club + data pipelines cutting busywork.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INTRO / TEASER ============ -->
+    <section class="section-pad intro" data-screen-label="Home — Intro">
+      <div class="wrap">
+        <div class="glass-light intro-panel reveal" data-drift="right">
+          <span class="eyebrow eyebrow-dark">In short</span>
+          <p class="intro-text">
+            I'm an early-career, AI-native builder working fast and across disciplines. I turn mathematics into models,
+            ideas into shipped sites, and messy data into confident business decisions. Curious, self-directed, and
+            pragmatic about getting real things out there.
+          </p>
+          <div class="intro-links">
+            <a class="link-arrow" href="about.html">Read the full story <span class="arr">→</span></a>
+            <a class="link-arrow" href="work.html">Browse the work <span class="arr">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="copy">© 2026 Arthur Renard · Berkeley, CA</div>
+      <div class="f-links">
+        <a href="mailto:arthur-r@berkeley.edu">arthur-r@berkeley.edu</a>
+        <a href="https://www.linkedin.com/in/arthur-m-renard" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="connect.html">Connect</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="image-slot.js"></script>
+  <script src="app.js"></script>
+
+  <!-- ============ TWEAKS PANEL ============ -->
+  <aside class="tweaks-panel" id="tweaksPanel" aria-hidden="true">
+    <div class="tw-head">
+      <span class="tw-title">Tweaks</span>
+      <button class="tw-close" id="twClose" aria-label="Close Tweaks">&times;</button>
+    </div>
+
+    <div class="tw-group">
+      <div class="tw-row"><label for="twDur">Horizontal drift speed</label><span class="tw-val" id="twDurVal">1.8s</span></div>
+      <input type="range" id="twDur" min="0.6" max="4" step="0.1" />
+      <div class="tw-scale"><span>Fast</span><span>Slow</span></div>
+    </div>
+
+    <div class="tw-group">
+      <div class="tw-row"><label for="twPortrait">Headshot height</label><span class="tw-val" id="twPortraitVal">1.30</span></div>
+      <input type="range" id="twPortrait" min="1" max="1.6" step="0.02" />
+      <div class="tw-scale"><span>Square</span><span>Tall portrait</span></div>
+    </div>
+
+    <div class="tw-group">
+      <div class="tw-row"><label for="twHero">Hero fills screen</label><span class="tw-val" id="twHeroVal">100vh</span></div>
+      <input type="range" id="twHero" min="78" max="112" step="1" />
+      <div class="tw-scale"><span>Compact</span><span>Full</span></div>
+    </div>
+
+    <p class="tw-note">Live preview — changes save automatically.</p>
+  </aside>
+
+  <script>
+    (function () {
+      var TWEAKS = /*EDITMODE-BEGIN*/{
+        "hDriftDuration": 4,
+        "portraitRatio": 1.6,
+        "heroFill": 82
+      }/*EDITMODE-END*/;
+
+      var root = document.documentElement;
+      function apply() {
+        root.style.setProperty("--h-drift-dur", TWEAKS.hDriftDuration + "s");
+        root.style.setProperty("--portrait-ratio", TWEAKS.portraitRatio);
+        root.style.setProperty("--hero-min", TWEAKS.heroFill + "vh");
+      }
+      apply();
+
+      /* Replay the horizontal-drift reveals in view so a speed change is
+         visible immediately (without needing to scroll away and back). */
+      function replayDrift() {
+        var els = document.querySelectorAll('.reveal[data-drift="left"],.reveal[data-drift="right"]');
+        var vh = window.innerHeight, i, r;
+        for (i = 0; i < els.length; i++) {
+          r = els[i].getBoundingClientRect();
+          if (r.top < vh && r.bottom > 0) els[i].classList.remove("in");
+        }
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            for (i = 0; i < els.length; i++) {
+              r = els[i].getBoundingClientRect();
+              if (r.top < vh * 0.95 && r.bottom > 0) els[i].classList.add("in");
+            }
+          });
+        });
+      }
+
+      var panel = document.getElementById("tweaksPanel");
+      function persist() { window.parent.postMessage({ type: "__edit_mode_set_keys", edits: TWEAKS }, "*"); }
+
+      function bind(id, valId, fmt, key, after) {
+        var input = document.getElementById(id), val = document.getElementById(valId);
+        input.value = TWEAKS[key];
+        val.textContent = fmt(TWEAKS[key]);
+        input.addEventListener("input", function () {
+          TWEAKS[key] = parseFloat(input.value);
+          val.textContent = fmt(TWEAKS[key]);
+          apply();
+          if (after) after();
+        });
+        input.addEventListener("change", persist);
+      }
+      bind("twDur", "twDurVal", function (v) { return v.toFixed(1) + "s"; }, "hDriftDuration", replayDrift);
+      bind("twPortrait", "twPortraitVal", function (v) { return v.toFixed(2); }, "portraitRatio");
+      bind("twHero", "twHeroVal", function (v) { return Math.round(v) + "vh"; }, "heroFill");
+
+      /* Host protocol: register listener BEFORE announcing availability. */
+      window.addEventListener("message", function (e) {
+        var t = e.data && e.data.type;
+        if (t === "__activate_edit_mode") { panel.classList.add("open"); panel.setAttribute("aria-hidden", "false"); }
+        else if (t === "__deactivate_edit_mode") { panel.classList.remove("open"); panel.setAttribute("aria-hidden", "true"); }
+      });
+      document.getElementById("twClose").addEventListener("click", function () {
+        panel.classList.remove("open");
+        panel.setAttribute("aria-hidden", "true");
+        window.parent.postMessage({ type: "__edit_mode_dismissed" }, "*");
+      });
+      window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+    })();
+  </script>
+</body>
+</html>
