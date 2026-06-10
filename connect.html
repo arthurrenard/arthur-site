@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connect — Arthur Renard</title>
-  <meta name="description" content="Get in touch with Arthur Renard — email, LinkedIn, and résumé. Open to internships, collaborations, and good conversations." />
+  <meta name="description" content="Get in touch with Arthur Renard — send a message or connect on LinkedIn. Open to internships, collaborations, and good conversations." />
   <meta property="og:title" content="Connect — Arthur Renard" />
   <meta property="og:description" content="Open to internships, collaborations, and good conversations." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -16,15 +16,34 @@
   <div class="scroll-progress"></div>
 
   <nav class="nav">
-    <a class="brand" href="index.html">
-      <span class="monogram">AR</span>
-      <span class="brand-name">Arthur Renard</span>
-    </a>
+    <div class="nav-left">
+      <div class="lang-switch">
+        <button class="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change language">
+          <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3c2.6 2.7 3.9 5.8 3.9 9s-1.3 6.3-3.9 9c-2.6-2.7-3.9-5.8-3.9-9S9.4 5.7 12 3z"></path>
+          </svg>
+          <span class="lang-code">EN</span>
+          <svg class="lang-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4.5l4 4 4-4"></path></svg>
+        </button>
+        <ul class="lang-menu" role="listbox" aria-label="Language">
+          <li><button data-lang="en" role="option">English</button></li>
+          <li><button data-lang="fr" role="option">Français</button></li>
+          <li><button data-lang="ko" role="option">한국어</button></li>
+          <li><button data-lang="es" role="option">Español</button></li>
+        </ul>
+      </div>
+      <a class="brand" href="index.html">
+        <span class="monogram">AR</span>
+        <span class="brand-name">Arthur Renard</span>
+      </a>
+    </div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="work.html">Work</a>
-      <a href="connect.html">Connect</a>
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="about.html" data-i18n="navAbout">About</a>
+      <a href="work.html" data-i18n="navWork">Work</a>
+      <a href="connect.html" data-i18n="navConnect">Connect</a>
     </div>
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
@@ -33,38 +52,63 @@
     <!-- ============ PAGE HEAD ============ -->
     <section class="page-head section-pad" data-screen-label="Connect — Head">
       <div class="wrap">
-        <span class="eyebrow reveal" data-drift="left">Connect</span>
-        <h1 class="reveal" data-drift="left" data-delay="1">Let's talk.</h1>
-        <p class="lead page-lead reveal" data-drift="left" data-delay="2">
-          Open to internships, collaborations, and good conversations. The fastest way to reach me is
-          email—I read everything.
-        </p>
-        <div class="connect-primary reveal" data-drift="left" data-delay="3">
-          <a class="btn btn-primary big" href="mailto:arthur-r@berkeley.edu">arthur-r@berkeley.edu <span class="arr">→</span></a>
-        </div>
+        <span class="eyebrow reveal" data-drift="left" data-i18n="connectEyebrow">Connect</span>
+        <h1 class="reveal" data-drift="left" data-delay="1" data-i18n="connectTitle">Let's talk.</h1>
+        <p class="lead page-lead reveal" data-drift="left" data-delay="2" data-i18n="connectLead">Open to internships, collaborations, and good conversations. Drop me a message below, and it will land straight in my inbox. I read everything!</p>
       </div>
     </section>
 
-    <!-- ============ CONTACT CARDS ============ -->
-    <section class="section-pad connect-cards-sec" data-screen-label="Connect — Cards">
-      <div class="wrap">
-        <div class="connect-grid">
-          <a class="glass connect-card reveal" data-drift="up" href="mailto:arthur-r@berkeley.edu">
-            <span class="cc-kind">Email</span>
-            <span class="cc-val">arthur-r@berkeley.edu</span>
-            <span class="cc-go">Write to me <span class="arr">→</span></span>
-          </a>
-          <a class="glass connect-card reveal" data-drift="up" data-delay="1" href="https://www.linkedin.com/in/arthur-m-renard" target="_blank" rel="noopener">
+    <!-- ============ FORM + LINKEDIN ============ -->
+    <section class="section-pad connect-main" data-screen-label="Connect — Form">
+      <div class="wrap connect-layout">
+        <form class="glass contact-form reveal" data-drift="left" id="contactForm" novalidate>
+          <div class="form-row">
+            <label for="cf-name" data-i18n="formName">Name</label>
+            <input id="cf-name" name="name" type="text" autocomplete="name" required
+              placeholder="Jane Doe" data-i18n-ph="formNamePh" />
+          </div>
+          <div class="form-row">
+            <label for="cf-email" data-i18n="formEmail">Your email</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" required
+              placeholder="jane@example.com" data-i18n-ph="formEmailPh" />
+            <span class="form-hint" data-i18n="formEmailHint">So I can reply — never shared, never shown publicly.</span>
+          </div>
+          <div class="form-row">
+            <label for="cf-message" data-i18n="formMessage">Message</label>
+            <textarea id="cf-message" name="message" rows="6" required
+              placeholder="Tell me a bit about what you have in mind…" data-i18n-ph="formMessagePh"></textarea>
+          </div>
+          <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="btn btn-primary big" type="submit">
+            <span class="btn-label" data-i18n="formSend">Send message</span> <span class="arr">→</span>
+          </button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <aside class="connect-side">
+          <a class="glass connect-card linkedin-card reveal" data-drift="right" data-delay="1" href="https://www.linkedin.com/in/arthur-m-renard" target="_blank" rel="noopener">
+            <svg class="li-glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5V8.25zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.95c0-1.66-.03-3.8-2.31-3.8-2.31 0-2.67 1.8-2.67 3.67V24H8.5V8.25z"></path>
+            </svg>
             <span class="cc-kind">LinkedIn</span>
             <span class="cc-val">in/arthur-m-renard</span>
-            <span class="cc-go">Connect <span class="arr">→</span></span>
+            <span class="cc-go" data-i18n="ccConnect">Connect <span class="arr">→</span></span>
           </a>
-          <a class="glass connect-card reveal" data-drift="up" data-delay="2" href="Arthur-Renard-Resume.pdf" download>
-            <span class="cc-kind">Résumé</span>
-            <span class="cc-val">PDF · one page</span>
-            <span class="cc-go">Download <span class="arr">↓</span></span>
-          </a>
-        </div>
+          <div class="glass connect-note reveal" data-drift="right" data-delay="2">
+            <span class="note-dot"></span>
+            <span data-i18n="connectNote">I usually reply the day of or the very next !</span>
+          </div>
+          <div class="glass orbit-card reveal" data-drift="right" data-delay="3">
+            <div class="orbit-head">
+              <span class="orbit-title" data-i18n="orbitTitle">Celestial sandbox</span>
+              <button class="orbit-reset" type="button" aria-label="Reset" title="Reset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4"></path></svg>
+              </button>
+            </div>
+            <canvas class="orbit-canvas"></canvas>
+            <span class="orbit-hint" data-i18n="orbitHint">Click to launch a planet · drag to slingshot</span>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -74,8 +118,8 @@
         <div class="glass-light signoff-panel reveal" data-drift="right">
           <div class="signoff-mono">AR</div>
           <div class="signoff-text">
-            <p class="signoff-line">Based in the bay and usually building something.</p>
-            <p class="signoff-sub">Math · AI · Finance. Thanks for stopping by.</p>
+            <p class="signoff-line" data-i18n="signoffLine">Based in the bay and usually building something.</p>
+            <p class="signoff-sub" data-i18n="signoffSub">Math · AI · Finance. Thanks for stopping by.</p>
           </div>
         </div>
       </div>
@@ -86,14 +130,17 @@
     <div class="wrap">
       <div class="copy">© 2026 Arthur Renard · Berkeley, CA</div>
       <div class="f-links">
-        <a href="mailto:arthur-r@berkeley.edu">arthur-r@berkeley.edu</a>
         <a href="https://www.linkedin.com/in/arthur-m-renard" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="index.html">Home</a>
+        <a href="connect.html" data-i18n="navConnect">Connect</a>
+        <a href="index.html" data-i18n="navHome">Home</a>
       </div>
     </div>
   </footer>
 
   <script src="image-slot.js"></script>
   <script src="app.js"></script>
+  <script src="i18n.js"></script>
+  <script src="contact.js"></script>
+  <script src="orbit-widget.js"></script>
 </body>
 </html>

@@ -1,1 +1,6 @@
 .claude/
+.DS_Store
+uploads/
+screenshots/
+scraps/
+CLAUDE_CODE_INSTRUCTIONS.md

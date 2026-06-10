@@ -16,15 +16,34 @@
   <div class="scroll-progress"></div>
 
   <nav class="nav">
-    <a class="brand" href="index.html">
-      <span class="monogram">AR</span>
-      <span class="brand-name">Arthur Renard</span>
-    </a>
+    <div class="nav-left">
+      <div class="lang-switch">
+        <button class="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change language">
+          <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3c2.6 2.7 3.9 5.8 3.9 9s-1.3 6.3-3.9 9c-2.6-2.7-3.9-5.8-3.9-9S9.4 5.7 12 3z"></path>
+          </svg>
+          <span class="lang-code">EN</span>
+          <svg class="lang-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4.5l4 4 4-4"></path></svg>
+        </button>
+        <ul class="lang-menu" role="listbox" aria-label="Language">
+          <li><button data-lang="en" role="option">English</button></li>
+          <li><button data-lang="fr" role="option">Français</button></li>
+          <li><button data-lang="ko" role="option">한국어</button></li>
+          <li><button data-lang="es" role="option">Español</button></li>
+        </ul>
+      </div>
+      <a class="brand" href="index.html">
+        <span class="monogram">AR</span>
+        <span class="brand-name">Arthur Renard</span>
+      </a>
+    </div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="work.html">Work</a>
-      <a href="connect.html">Connect</a>
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="about.html" data-i18n="navAbout">About</a>
+      <a href="work.html" data-i18n="navWork">Work</a>
+      <a href="connect.html" data-i18n="navConnect">Connect</a>
     </div>
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
@@ -33,9 +52,9 @@
     <!-- ============ PAGE HEAD ============ -->
     <section class="page-head section-pad" data-screen-label="About — Head">
       <div class="wrap">
-        <span class="eyebrow reveal" data-drift="left">About</span>
-        <h1 class="reveal" data-drift="left" data-delay="1">I don't pick one lane,<br />I connect them.</h1>
-        <p class="lead page-lead reveal" data-drift="left" data-delay="2">
+        <span class="eyebrow reveal" data-drift="left" data-i18n="aboutEyebrow">About</span>
+        <h1 class="reveal" data-drift="left" data-delay="1" data-i18n="aboutTitle">I don't pick one lane,<br />I connect them.</h1>
+        <p class="lead page-lead reveal" data-drift="left" data-delay="2" data-i18n="aboutLead">
           I'm early in the journey and eager to learn more. I move fast, work across disciplines, and
           ship real solutions.
         </p>
@@ -47,31 +66,31 @@
       <div class="wrap narrative-grid">
         <aside class="narrative-aside reveal" data-drift="left">
           <div class="glass aside-card">
-            <div class="aside-row"><span class="k">Studying</span><span class="v">Applied Math &amp; Data Science</span></div>
-            <div class="aside-row"><span class="k">At</span><span class="v">UC Berkeley · Class of 2029</span></div>
+            <div class="aside-row"><span class="k" data-i18n="asideStudying">Studying</span><span class="v" data-i18n="asideStudyingV">Applied Math &amp; Data Science</span></div>
+            <div class="aside-row"><span class="k" data-i18n="asideAt">At</span><span class="v" data-i18n="asideAtV">UC Berkeley · Class of 2029</span></div>
             <div class="aside-row"><span class="k">GPA</span><span class="v">3.83</span></div>
-            <div class="aside-row"><span class="k">Based in</span><span class="v">Berkeley, California</span></div>
-            <div class="aside-row"><span class="k">Native</span><span class="v">French &amp; English</span></div>
+            <div class="aside-row"><span class="k" data-i18n="asideBasedIn">Based in</span><span class="v" data-i18n="asideBasedInV">Berkeley, California</span></div>
+            <div class="aside-row"><span class="k" data-i18n="asideNative">Native</span><span class="v" data-i18n="asideNativeV">French &amp; English</span></div>
           </div>
         </aside>
 
         <div class="narrative-body reveal" data-drift="right">
-          <p class="big-p">
+          <p class="big-p" data-i18n="aboutBigP">
             I work at the intersection of <em>math, AI, and finance</em>. Math gives me the rigor,
             AI gives me the leverage, and finance is the application.
           </p>
-          <p>
+          <p data-i18n="aboutP2">
             I'm genuinely AI-native. I don't just use AI tools; I build and deploy with them. Claude,
             Codex, Ollama, and OpenCode are part of how I get things from idea to shipped, whether that's
             a deployed site, a data-visualization pipeline, or an evaluation set for child-safety models.
           </p>
-          <p>
+          <p data-i18n="aboutP3">
             Underneath the tooling is real mathematical grounding and a background in finance that keep me
             asking the practical questions. I was built to ask what's the model, what's the outcome, what
             moves the number. I've run DCF and LBO analyses, automated reporting that cut coding and
             debugging time by 60%, and consulted for multiple businesses through Microfinance at Berkeley.
           </p>
-          <p>
+          <p data-i18n="aboutP4">
             Here's the important part: I'm not claiming to be a senior engineer. I'm a fast, broad, curious
             builder who's early to collecting range, so the depth compounds later. Pragmatic about shipping,
             serious about work, and persistently learning.
@@ -84,32 +103,32 @@
     <section class="section-pad beyond" data-screen-label="About — Beyond work">
       <div class="wrap">
         <div class="sec-head reveal" data-drift="left">
-          <span class="eyebrow">Beyond work</span>
-          <h2>The parts that<br /><span class="muted">don't fit on a résumé.</span></h2>
+          <span class="eyebrow" data-i18n="beyondEyebrow">Beyond work</span>
+          <h2 data-i18n="beyondTitle">The parts that<br /><span class="muted">don't fit on a résumé.</span></h2>
         </div>
 
         <div class="beyond-grid">
           <article class="glass beyond-card span-2 reveal" data-drift="up">
-            <h3>Multi-instrumentalist</h3>
-            <p>Bass, guitar, drums, piano, and vocals. Since I was seven, I've played in several bands and
+            <h3 data-i18n="beyondMusicH">Multi-instrumentalist</h3>
+            <p data-i18n="beyondMusicP">Bass, guitar, drums, piano, and vocals. Since I was seven, I've played in several bands and
             recorded with Pro Tools. To me, music is a beautiful logic rooted in mathematical principles.</p>
           </article>
           <article class="glass beyond-card reveal" data-drift="up" data-delay="1">
-            <h3>Valedictorian</h3>
-            <p>I was a straight-A student across all high school and many community college classes.</p>
+            <h3 data-i18n="beyondValH">Valedictorian</h3>
+            <p data-i18n="beyondValP">I was a straight-A student across all high school and many community college classes.</p>
           </article>
           <article class="glass beyond-card reveal" data-drift="up" data-delay="1">
-            <h3>Cub Scout leader</h3>
-            <p>I lead a unit of 15 kids, entirely in French. Equal parts logistics, patience, and fun.</p>
+            <h3 data-i18n="beyondScoutH">Cub Scout leader</h3>
+            <p data-i18n="beyondScoutP">I lead a unit of 15 kids, entirely in French. Equal parts logistics, patience, and fun.</p>
           </article>
           <article class="glass beyond-card reveal" data-drift="up" data-delay="2">
-            <h3>Celestial mechanics</h3>
-            <p>I have a long-running fascination with the sky and with the math behind how the largest
+            <h3 data-i18n="beyondCelestialH">Celestial mechanics</h3>
+            <p data-i18n="beyondCelestialP">I have a long-running fascination with the sky and with the math behind how the largest
             things in the universe move.</p>
           </article>
           <article class="glass beyond-card reveal" data-drift="up" data-delay="2">
-            <h3>Treasurer</h3>
-            <p>I am the Treasurer of UC Berkeley's Phi Delta Theta (California Alpha Chapter) for the
+            <h3 data-i18n="beyondTreasurerH">Treasurer</h3>
+            <p data-i18n="beyondTreasurerP">I am the Treasurer of UC Berkeley's Phi Delta Theta (California Alpha Chapter) for the
             2026–27 academic school year.</p>
           </article>
         </div>
@@ -120,11 +139,11 @@
     <section class="section-pad cta-band" data-screen-label="About — CTA">
       <div class="wrap">
         <div class="glass-light cta-panel reveal" data-drift="right">
-          <h2 class="cta-h">Want the full picture?</h2>
-          <p class="cta-sub">See what I've actually shipped, or reach out directly.</p>
+          <h2 class="cta-h" data-i18n="aboutCtaH">Want the full picture?</h2>
+          <p class="cta-sub" data-i18n="aboutCtaSub">See what I've actually shipped, or reach out directly.</p>
           <div class="cta-actions">
-            <a class="btn btn-dark" href="work.html">View the work <span class="arr">→</span></a>
-            <a class="link-arrow" href="connect.html">Get in touch <span class="arr">→</span></a>
+            <a class="btn btn-dark" href="work.html" data-i18n="ctaViewWork">View the work <span class="arr">→</span></a>
+            <a class="link-arrow" href="connect.html" data-i18n="ctaGetInTouch">Get in touch <span class="arr">→</span></a>
           </div>
         </div>
       </div>
@@ -135,14 +154,14 @@
     <div class="wrap">
       <div class="copy">© 2026 Arthur Renard · Berkeley, CA</div>
       <div class="f-links">
-        <a href="mailto:arthur-r@berkeley.edu">arthur-r@berkeley.edu</a>
         <a href="https://www.linkedin.com/in/arthur-m-renard" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="connect.html">Connect</a>
+        <a href="connect.html" data-i18n="navConnect">Connect</a>
       </div>
     </div>
   </footer>
 
   <script src="image-slot.js"></script>
   <script src="app.js"></script>
+  <script src="i18n.js"></script>
 </body>
 </html>
