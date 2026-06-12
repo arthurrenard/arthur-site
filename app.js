@@ -113,4 +113,82 @@
   onScroll();
   window.requestAnimationFrame(onScroll);
   window.addEventListener("load", onScroll);
+
+  /* ---- Brand monogram: rotating green emoji silhouettes ----
+     Each emoji is rendered as a CSS mask so it paints in the brand's
+     dark green (var(--ink-on-light)) rather than its native colors.
+     Set spans Arthur: stars/celestial, music, math/science, finance,
+     and nature/outdoors. */
+  var mono = document.querySelector(".brand .monogram");
+  if (mono) {
+    var glyph = mono.querySelector(".mono-glyph");
+    if (glyph) {
+      var EMOJI = ["\u2B50","\uD83E\uDE90","\uD83C\uDF19","\uD83C\uDFB8","\uD83C\uDFB5",
+                   "\u03C0","\u2211","\uD83D\uDD2C","\uD83C\uDF32","\uD83C\uDFD4\uFE0F","\uD83E\uDD8A"];
+      var svgFor = function (ch, x, y) {
+        return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>" +
+          "<text x='" + x + "' y='" + y + "' font-size='78' text-anchor='middle' dominant-baseline='central'>" + ch + "</text></svg>";
+      };
+      var maskUrl = function (svg) { return "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svg) + "\")"; };
+      // Measure each glyph's painted bounding box and bake an offset into its
+      // mask so every emoji ends up individually centered in the square.
+      var buildCentered = function (ch) {
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.onload = function () {
+            var ox = 0, oy = 0;
+            try {
+              var c = document.createElement("canvas"); c.width = 100; c.height = 100;
+              var cx2 = c.getContext("2d"); cx2.drawImage(img, 0, 0, 100, 100);
+              var d = cx2.getImageData(0, 0, 100, 100).data;
+              var minX = 100, maxX = 0, minY = 100, maxY = 0, found = false;
+              for (var i = 0; i < d.length; i += 4) {
+                if (d[i + 3] > 12) { found = true; var p = i / 4, px = p % 100, py = (p / 100) | 0;
+                  if (px < minX) minX = px; if (px > maxX) maxX = px;
+                  if (py < minY) minY = py; if (py > maxY) maxY = py; }
+              }
+              if (found) { ox = 50 - (minX + maxX) / 2; oy = 50 - (minY + maxY) / 2; }
+            } catch (e) { /* tainted canvas — fall back to un-offset */ }
+            resolve(maskUrl(svgFor(ch, 50 + ox, 50 + oy)));
+          };
+          img.onerror = function () { resolve(maskUrl(svgFor(ch, 50, 50))); };
+          img.src = "data:image/svg+xml;utf8," + encodeURIComponent(svgFor(ch, 50, 50));
+        });
+      };
+      // shuffle so the order varies between loads
+      var order = EMOJI.slice();
+      for (var oi = order.length - 1; oi > 0; oi--) {
+        var oj = Math.floor(Math.random() * (oi + 1));
+        var tmp = order[oi]; order[oi] = order[oj]; order[oj] = tmp;
+      }
+      var k = 0, masks = order.map(function (ch) { return maskUrl(svgFor(ch, 50, 50)); });
+      var setMask = function (m) { glyph.style.webkitMaskImage = m; glyph.style.maskImage = m; };
+      setMask(masks[0]);
+      // upgrade to centered masks as soon as measurements finish
+      Promise.all(order.map(buildCentered)).then(function (centered) {
+        masks = centered;
+        setMask(masks[k]);
+      });
+      var cycle = function () {
+        // current glyph falls out the bottom
+        glyph.classList.add("mono-out");
+        setTimeout(function () {
+          k = (k + 1) % order.length;
+          // jump the (now hidden) glyph above the square, swap the emoji,
+          // then release so it falls down into the centered position
+          glyph.classList.add("mono-prep");
+          glyph.classList.remove("mono-out");
+          setMask(masks[k]);
+          void glyph.offsetWidth; // reflow so the prep state takes hold first
+          glyph.classList.remove("mono-prep");
+        }, 540);
+      };
+      var MONO_EVERY = 4200;
+      var monoIv = setInterval(cycle, MONO_EVERY);
+      document.addEventListener("visibilitychange", function () {
+        clearInterval(monoIv);
+        if (!document.hidden) monoIv = setInterval(cycle, MONO_EVERY);
+      });
+    }
+  }
 })();

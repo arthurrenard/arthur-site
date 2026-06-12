@@ -22,9 +22,9 @@
   var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
   var cx = 0, cy = 0;
   var SUN_R = 11;
-  var K = 600;          // gravitational constant * star mass
+  var K = 540;          // gravitational constant * star mass (10% less gravity)
   var SOFT = 42;        // softening to avoid singularity
-  var MAX_V = 8;        // velocity clamp
+  var MAX_V = 9.6;      // velocity clamp (max launch speed, 20% faster)
   var DT = 0.45;        // global time scale (slows the whole simulation down)
   var MAX_PULL = 55;    // cap how far a slingshot drag counts
   var MAX_PLANETS = 6;
@@ -285,6 +285,12 @@
   }, { threshold: 0.05 });
 
   window.addEventListener("resize", size, { passive: true });
+  // React to the canvas being resized by the flex layout (e.g. when the
+  // side column stretches to the form's height, or on translation reflow).
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function () { size(); });
+    ro.observe(canvas);
+  }
   document.addEventListener("visibilitychange", function () { document.hidden ? stop() : start(); });
 
   size();

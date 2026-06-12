@@ -35,7 +35,7 @@
         </ul>
       </div>
       <a class="brand" href="index.html">
-        <span class="monogram">AR</span>
+        <span class="monogram" role="img" aria-label="Arthur Renard"><span class="mono-glyph" aria-hidden="true"></span></span>
         <span class="brand-name">Arthur Renard</span>
       </a>
     </div>
@@ -108,10 +108,23 @@
         </div>
 
         <div class="beyond-grid">
-          <article class="glass beyond-card span-2 reveal" data-drift="up">
-            <h3 data-i18n="beyondMusicH">Multi-instrumentalist</h3>
-            <p data-i18n="beyondMusicP">Bass, guitar, drums, piano, and vocals. Since I was seven, I've played in several bands and
-            recorded with Pro Tools. To me, music is a beautiful logic rooted in mathematical principles.</p>
+          <article class="glass beyond-card span-2 reveal guitar-card" data-drift="up">
+            <div class="guitar-card-grid">
+              <div class="guitar-card-text">
+                <h3 data-i18n="beyondMusicH">Multi-instrumentalist</h3>
+                <p data-i18n="beyondMusicP">Bass, guitar, drums, piano, and vocals. Since I was seven, I've played in several bands and
+                recorded with Pro Tools. To me, music is a beautiful logic rooted in mathematical principles.</p>
+                <p class="guitar-card-note">I also like to modify instruments themselves! Here's a black Strat I refinished into a Van Halen-style Frankenstrat and rewired with a Seymour Duncan humbucker.</p>
+              </div>
+              <button class="guitar-thumb" type="button" id="guitarTrigger" aria-label="Open the guitar build gallery — 6 photos">
+                <img src="images/guitar-7-final.png" alt="The finished red, white and black striped Frankenstrat guitar I built" loading="lazy" />
+                <span class="guitar-thumb-veil"></span>
+                <span class="guitar-thumb-hint">
+                  <span class="gth-label">Click to see my guitar's transformation</span>
+                  <span class="gth-arr" aria-hidden="true">→</span>
+                </span>
+              </button>
+            </div>
           </article>
           <article class="glass beyond-card reveal" data-drift="up" data-delay="1">
             <h3 data-i18n="beyondValH">Valedictorian</h3>
@@ -150,10 +163,47 @@
     </section>
   </main>
 
+  <!-- ============ GUITAR BUILD LIGHTBOX ============ -->
+  <div class="guitar-lightbox" id="guitarLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Guitar build — progression gallery">
+    <div class="glb-backdrop" data-glb-close></div>
+    <div class="glb-dialog" role="document">
+      <header class="glb-bar">
+        <span class="glb-eyebrow">The Frankenstrat build</span>
+        <button class="glb-close" type="button" aria-label="Close gallery" data-glb-close>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        </button>
+      </header>
+      <div class="glb-stage">
+        <button class="glb-nav glb-prev" type="button" aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg>
+        </button>
+        <div class="glb-imgwrap">
+          <img id="glbImg" alt="" />
+        </div>
+        <button class="glb-nav glb-next" type="button" aria-label="Next photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+      <div class="glb-caption">
+        <div class="glb-meta">
+          <span class="glb-step"><span id="glbNum">01</span><span class="glb-step-total">/ 06</span></span>
+          <span class="glb-title" id="glbTitle"></span>
+        </div>
+        <p class="glb-desc" id="glbDesc"></p>
+        <div class="glb-dots" id="glbDots" role="tablist" aria-label="Jump to step"></div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="wrap">
       <div class="copy">© 2026 Arthur Renard · Berkeley, CA</div>
       <div class="f-links">
+        <a href="https://github.com/arthur-r-bot" target="_blank" rel="noopener" aria-label="GitHub" class="f-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 1.27a11 11 0 0 0-3.48 21.46c.55.1.75-.24.75-.53v-1.87c-3.06.67-3.7-1.3-3.7-1.3-.5-1.28-1.23-1.62-1.23-1.62-1-.69.08-.67.08-.67 1.11.08 1.7 1.15 1.7 1.15.98 1.69 2.58 1.2 3.21.92.1-.72.39-1.2.7-1.48-2.44-.28-5.01-1.23-5.01-5.46 0-1.2.43-2.19 1.14-2.96-.11-.28-.5-1.4.11-2.92 0 0 .93-.3 3.05 1.13a10.5 10.5 0 0 1 5.56 0c2.12-1.43 3.05-1.13 3.05-1.13.61 1.52.22 2.64.11 2.92.71.77 1.14 1.76 1.14 2.96 0 4.24-2.58 5.18-5.03 5.45.4.34.75 1.01.75 2.04v3.02c0 .29.2.64.76.53A11 11 0 0 0 12 1.27Z"></path>
+          </svg>
+        </a>
         <a href="https://www.linkedin.com/in/arthur-m-renard" target="_blank" rel="noopener">LinkedIn</a>
         <a href="connect.html" data-i18n="navConnect">Connect</a>
       </div>
@@ -163,5 +213,6 @@
   <script src="image-slot.js"></script>
   <script src="app.js"></script>
   <script src="i18n.js"></script>
+  <script src="guitar-gallery.js"></script>
 </body>
 </html>
