@@ -1,0 +1,26 @@
+{
+  "name": "Arthur Renard",
+  "short_name": "A. Renard",
+  "description": "UC Berkeley Applied Math & Data Science student — building across math, AI, and finance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#4b5945",
+  "theme_color": "#4b5945",
+  "icons": [
+    {
+      "src": "favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

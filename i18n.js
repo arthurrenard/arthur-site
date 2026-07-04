@@ -340,6 +340,81 @@
       ko: `수학 · AI · 금융. 방문해 주셔서 감사합니다.`,
       es: `Matemáticas · IA · Finanzas. Gracias por pasar.`,
     },
+
+    /* ---- Work · Bright.AI ---- */
+    roleSWEIntern: {
+      fr: `Stagiaire en génie logiciel`,
+      ko: `소프트웨어 엔지니어링 인턴`,
+      es: `Becario de Ingeniería de Software`,
+    },
+    statusCurrent: {
+      fr: `<span class="status-dot"></span>En poste actuellement`,
+      ko: `<span class="status-dot"></span>현재 근무 중`,
+      es: `<span class="status-dot"></span>Trabajando aquí actualmente`,
+    },
+    brightP: {
+      fr: `Je travaille dans le domaine de l'IA appliquée aux objets connectés, en développant des logiciels qui amènent l'intelligence machine dans le monde réel.`,
+      ko: `웨어러블 응용 AI 분야에서 머신 인텔리전스를 현실 세계로 가져오는 소프트웨어를 만들고 있습니다.`,
+      es: `Trabajo en el campo de la IA aplicada a wearables, desarrollando software que lleva la inteligencia de las máquinas al mundo real.`,
+    },
+    chipWearables: { fr: `Objets connectés`, ko: `웨어러블`, es: `Wearables` },
+    chipAppliedAI: { fr: `IA appliquée`, ko: `응용 AI`, es: `IA aplicada` },
+    chipSWEng:     { fr: `Génie logiciel`, ko: `소프트웨어 엔지니어링`, es: `Ingeniería de software` },
+
+    /* ---- About · guitar ---- */
+    beyondGuitarNote: {
+      fr: `J'aime aussi modifier les instruments eux-mêmes ! Voici une Strat noire que j'ai transformée en Frankenstrat façon Van Halen et recâblée avec un micro Seymour Duncan.`,
+      ko: `악기 자체를 개조하는 것도 좋아합니다! 검은색 Strat을 반 헤일런 스타일의 Frankenstrat으로 다시 칠하고 Seymour Duncan 험버커로 재배선했습니다.`,
+      es: `¡También me gusta modificar los instrumentos! Aquí tienes una Strat negra que transformé en una Frankenstrat al estilo Van Halen y recableé con una pastilla Seymour Duncan.`,
+    },
+    guitarHint: {
+      fr: `Cliquez pour voir la transformation de ma guitare`,
+      ko: `제 기타의 변신 과정을 보려면 클릭하세요`,
+      es: `Haz clic para ver la transformación de mi guitarra`,
+    },
+    glbEyebrow: {
+      fr: `La fabrication de la Frankenstrat`,
+      ko: `Frankenstrat 제작기`,
+      es: `La construcción de la Frankenstrat`,
+    },
+
+    /* ---- About · guitar build steps ---- */
+    guitarT1: { fr: `Démontage & ponçage`, ko: `분해 & 샌딩`, es: `Desmontaje y lijado` },
+    guitarD1: {
+      fr: `J'ai démonté la guitare jusqu'au corps nu — plaque retirée, toute l'électronique sortie — puis poncé l'ancienne finition jusqu'à une surface plane et régulière (en photographiant d'abord le câblage pour que le remontage ne soit pas un jeu de devinettes).`,
+      ko: `기타를 맨 몸체까지 분해하고 — 픽가드를 떼고 모든 전자 부품을 꺼낸 뒤 — 기존 마감을 평평하고 고른 표면이 되도록 샌딩했습니다 (재조립이 추측이 되지 않도록 배선을 먼저 촬영했습니다).`,
+      es: `Desmonté la guitarra hasta dejar el cuerpo desnudo —golpeador fuera, toda la electrónica afuera— y luego lijé el acabado viejo hasta una superficie plana y uniforme (fotografiando primero el cableado para que el rearmado no fuera adivinanza).`,
+    },
+    guitarT2: { fr: `Base blanche + masquage`, ko: `흰색 베이스 + 마스킹`, es: `Base blanca y enmascarado` },
+    guitarD2: {
+      fr: `J'ai pulvérisé une couche de base blanche sur tout le corps, puis masqué à la main le motif de rayures Frankenstrat avec du ruban adhésif. C'est le ruban qui protège le blanc que l'on voit dans le design final.`,
+      ko: `몸체 전체에 흰색 베이스 코트를 뿌린 뒤, Frankenstrat 줄무늬 패턴을 테이프로 직접 마스킹했습니다. 이 테이프가 최종 디자인에 보이는 흰색을 지켜 줍니다.`,
+      es: `Apliqué una capa base blanca por todo el cuerpo y luego enmascaré a mano el patrón de rayas Frankenstrat con cinta. La cinta es lo que protege el blanco que se ve en el diseño final.`,
+    },
+    guitarT3: { fr: `Couche noire + paillettes d'or`, ko: `검은색 코트 + 금색 플레이크`, es: `Capa negra y escamas doradas` },
+    guitarD3: {
+      fr: `J'ai appliqué du noir sur le corps masqué, puis projeté des paillettes d'or sur le dos — une finition unique qu'on ne trouve sur aucune guitare d'usine.`,
+      ko: `테이프를 붙인 몸체 위에 검은색을 입힌 뒤, 뒷면에 금색 반점을 흩뿌렸습니다 — 어떤 공장 기타에서도 찾을 수 없는 단 하나뿐인 마감입니다.`,
+      es: `Apliqué negro sobre el cuerpo enmascarado y luego salpiqué motas doradas por la parte trasera: un acabado único que no encontrarás en ninguna guitarra de fábrica.`,
+    },
+    guitarT4: { fr: `Rouge cerise`, ko: `체리 레드`, es: `Rojo cereza` },
+    guitarD4: {
+      fr: `La couleur finale est appliquée : rouge cerise, pulvérisé sur l'ensemble. Sous tout ce rouge, le ruban maintient encore tout le motif en place.`,
+      ko: `마지막 색을 입힙니다: 체리 레드를 전체에 뿌립니다. 그 모든 빨강 아래에서 테이프가 여전히 전체 패턴을 잡아 주고 있습니다.`,
+      es: `Va el color final: rojo cereza, rociado sobre todo. Bajo todo ese rojo, la cinta sigue sujetando todo el patrón en su lugar.`,
+    },
+    guitarT5: { fr: `Retrait du ruban`, ko: `테이프 떼어내기`, es: `Retirar la cinta` },
+    guitarD5: {
+      fr: `Retirer le ruban révèle les rayures cachées en dessous — le motif Frankenstrat classique rouge, blanc et noir, avec des lignes nettes.`,
+      ko: `테이프를 벗겨내면 그 아래 숨어 있던 줄무늬가 드러납니다 — 선명한 라인까지 살린 클래식한 빨강·흰색·검정 Frankenstrat 패턴입니다.`,
+      es: `Al retirar la cinta se revelan las rayas escondidas debajo: el clásico patrón Frankenstrat rojo, blanco y negro, con líneas nítidas.`,
+    },
+    guitarT6: { fr: `Remonté & câblé pour le gros son`, ko: `재조립 & 강력한 배선`, es: `Rearmada y cableada con fuerza` },
+    guitarD6: {
+      fr: `Remontée avec un humbucker Seymour Duncan SH-4 JB au chevalet, des mécaniques à blocage et des cordes neuves. Un son EVH plus gras, des harmoniques hurlants et bien moins de bruit.`,
+      ko: `브리지에 Seymour Duncan SH-4 JB 험버커, 락킹 튜너, 새 줄로 다시 조립했습니다. 더 두툼한 EVH 톤, 비명 지르는 하모닉스, 그리고 훨씬 적은 잡음.`,
+      es: `De vuelta armada con una pastilla humbucker Seymour Duncan SH-4 JB en el puente, clavijas de bloqueo y cuerdas nuevas. Un tono EVH más grueso, armónicos chillones y mucho menos zumbido.`,
+    },
   };
 
   const LANGS = [
@@ -391,6 +466,7 @@
       b.classList.toggle("active", b.getAttribute("data-lang") === lang);
     });
     try { localStorage.setItem(STORE_KEY, lang); } catch (e) {}
+    try { document.dispatchEvent(new CustomEvent("langchange", { detail: { lang: lang } })); } catch (e) {}
   }
 
   // ---- Dropdown wiring ----

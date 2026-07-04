@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>·</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .secret-stage {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 40px 24px;
+    }
+    .secret-card {
+      width: min(440px, 100%);
+      padding: 44px 40px 40px;
+      border-radius: var(--radius-lg);
+      background: var(--glass-tint-2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      text-align: center;
+    }
+    .secret-heart {
+      font-size: 22px;
+      color: var(--sage-light);
+      letter-spacing: 6px;
+      margin-bottom: 22px;
+    }
+    .secret-card h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+    .secret-card p.sub {
+      color: var(--white-soft);
+      font-size: 15px;
+      margin: 0 0 26px;
+    }
+    .secret-form { display: flex; flex-direction: column; gap: 12px; }
+    .secret-form input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color .2s var(--ease);
+    }
+    .secret-form input::placeholder { color: var(--white-faint); }
+    .secret-form input:focus { border-color: var(--sage); }
+    .secret-form button {
+      padding: 13px 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--sage-light);
+      color: var(--ink-on-light);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .15s var(--ease), background .2s var(--ease);
+    }
+    .secret-form button:hover { background: #c6dbc2; transform: translateY(-1px); }
+    .secret-error {
+      color: #ffd9d0;
+      font-size: 13px;
+      min-height: 16px;
+      margin-top: 4px;
+    }
+    /* unlocked state */
+    .secret-reveal { display: none; }
+    .secret-stage.unlocked { display: block; min-height: 0; padding: 0; }
+    .secret-stage.unlocked .secret-gate { display: none; }
+    .secret-stage.unlocked .secret-card {
+      width: auto; background: none; border: none; box-shadow: none;
+      backdrop-filter: none; -webkit-backdrop-filter: none; padding: 0;
+    }
+    .secret-stage.unlocked .secret-reveal { display: block; }
+
+    /* hero */
+    .reveal-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 40px 24px;
+      animation: revealIn 1s var(--ease-out) both;
+    }
+    .reveal-hero .big-heart {
+      font-size: 40px;
+      color: var(--sage-light);
+      margin-bottom: 12px;
+    }
+    .reveal-hero h1 {
+      font-size: clamp(32px, 8vw, 56px);
+      font-weight: 600;
+      line-height: 1.15;
+      margin: 0;
+    }
+    .reveal-hero .hero-sub {
+      color: var(--white-soft);
+      font-size: 15px;
+      margin: 10px 0 0;
+    }
+    .scroll-cue {
+      margin-top: 34px;
+      color: var(--white-faint);
+      font-size: 13px;
+      letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: bob 2.4s ease-in-out infinite;
+    }
+    .scroll-cue svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+    @keyframes bob { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
+    @keyframes revealIn {
+      from { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+      to { opacity: 1; transform: none; filter: none; }
+    }
+
+    /* content below the fold */
+    .reveal-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 20px 24px 100px;
+    }
+    .reveal-sec-title {
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--sage-light);
+      margin: 60px 0 24px;
+    }
+    /* countdown */
+    .countdown {
+      padding: 34px 28px;
+      border-radius: var(--radius-lg);
+      background: var(--glass-tint-2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      text-align: center;
+    }
+    .countdown .cd-label { color: var(--white-soft); font-size: 14px; margin: 0 0 20px; }
+    .cd-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .cd-cell {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      padding: 16px 6px;
+    }
+    .cd-num {
+      font-size: clamp(26px, 7vw, 40px);
+      font-weight: 600;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .cd-unit {
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--white-faint);
+    }
+    .cd-done { font-size: clamp(22px, 6vw, 34px); font-weight: 600; margin: 0; }
+    /* photos */
+    .photo-stack { display: flex; flex-direction: column; gap: 18px; }
+    .photo-stack figure {
+      margin: 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      background: var(--glass-tint);
+    }
+    .photo-stack img { display: block; width: 100%; height: auto; }
+    .photo-stack figcaption {
+      padding: 12px 18px;
+      font-size: 13px;
+      color: var(--white-soft);
+    }
+    .reveal-back { text-align: center; margin-top: 48px; }
+    .reveal-back a {
+      color: var(--white-soft);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--glass-border);
+      transition: background .2s var(--ease), color .2s var(--ease);
+    }
+    .reveal-back a:hover { background: rgba(255,255,255,0.08); color: var(--white); }
+    .gate-back { margin-top: 24px; }
+    /* love note */
+    .love-note {
+      padding: 34px 30px;
+      border-radius: var(--radius-lg);
+      background: var(--glass-tint-2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    }
+    .love-note p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--white-soft);
+      margin: 0 0 16px;
+      text-wrap: pretty;
+    }
+    .love-note p:first-child { color: var(--white); }
+    .love-note .love-sign {
+      margin: 24px 0 0;
+      color: var(--sage-light);
+      font-style: italic;
+    }
+    /* I love you so so so... */
+    .loveyou {
+      border-radius: var(--radius-lg);
+      background: var(--glass-tint-2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      overflow: hidden;
+    }
+    .loveyou-scroll {
+      height: 260px;
+      overflow-y: auto;
+      padding: 28px 30px;
+      scroll-behavior: smooth;
+    }
+    .loveyou-text {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--white-soft);
+      word-spacing: 2px;
+    }
+    .loveyou-text .ly-lead { color: var(--white); }
+    .loveyou-text .ly-much {
+      color: var(--sage-light);
+      font-weight: 600;
+      font-size: clamp(28px, 7vw, 44px);
+      display: inline-block;
+      margin-top: 6px;
+    }
+    .loveyou-hint {
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--white-faint);
+      padding: 10px;
+      border-top: 1px solid var(--glass-border);
+    }
+    /* falling hearts */
+    .hearts {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      display: none;
+    }
+    body.unlocked .hearts { display: block; }
+    .heart {
+      position: absolute;
+      top: -8vh;
+      color: var(--sage-light);
+      opacity: 0;
+      will-change: transform, opacity;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { opacity: 0; transform: translateY(-10vh) rotate(0deg); }
+      10%  { opacity: var(--o, .5); }
+      90%  { opacity: var(--o, .5); }
+      100% { opacity: 0; transform: translateY(110vh) rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .heart { animation: none; display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grain"></div>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;"></canvas>
+
+  <div class="secret-stage" id="stage">
+    <div class="secret-card">
+      <div class="secret-gate">
+        <div class="secret-heart">♥</div>
+        <h1>For someone in particular.</h1>
+        <p class="sub">Hmm... what was that first offspring's original name again?</p>
+        <form class="secret-form" id="gateForm" autocomplete="off">
+          <input type="password" id="pw" placeholder="whisper the password" aria-label="Password" />
+          <button type="submit">Enter</button>
+          <div class="secret-error" id="err"></div>
+        </form>
+        <div class="reveal-back gate-back">
+          <a href="index.html">← back to the site</a>
+        </div>
+      </div>
+      <div class="secret-reveal">
+        <section class="reveal-hero">
+          <div class="big-heart">♥</div>
+          <h1>Happy 9 months</h1>
+          <p class="hero-sub">Arthur &amp; Bella · since October 4, 2025</p>
+          <div class="scroll-cue">
+            <span>scroll</span>
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+          </div>
+        </section>
+
+        <div class="reveal-body">
+          <p class="reveal-sec-title">Counting down to one year</p>
+          <div class="countdown">
+            <p class="cd-label" id="cdLabel">Until October 4, 2026</p>
+            <div class="cd-grid" id="cdGrid">
+              <div class="cd-cell"><div class="cd-num" id="cdDays">–</div><span class="cd-unit">Days</span></div>
+              <div class="cd-cell"><div class="cd-num" id="cdHours">–</div><span class="cd-unit">Hours</span></div>
+              <div class="cd-cell"><div class="cd-num" id="cdMins">–</div><span class="cd-unit">Minutes</span></div>
+              <div class="cd-cell"><div class="cd-num" id="cdSecs">–</div><span class="cd-unit">Seconds</span></div>
+            </div>
+          </div>
+
+          <p class="reveal-sec-title">Us</p>
+          <div class="photo-stack">
+            <figure><img src="images/us-3.png" alt="The two of us laughing, cheek to cheek in the sun" loading="lazy" /><figcaption>The day we made it Official ♥</figcaption></figure>
+            <figure><img src="images/us-2.png" alt="Sharing frozen yogurt under a tree" loading="lazy" /><figcaption>Sixth months date after Botanical Gardens!</figcaption></figure>
+            <figure><img src="images/us-1.png" alt="Bella playing guitar in the music shop" loading="lazy" /><figcaption>Bella playing guitar with Arthur in Rancho! 🎸🫶</figcaption></figure>
+          </div>
+
+          <p class="reveal-sec-title">A love note</p>
+          <div class="love-note">
+            <p>Bella,</p>
+            <p>I cant believe we're 9 months in !  You never cease to amaze me, and I feel so incredibly honored to be with you. You make every day special, you motivate me to always do better, and you always push yourself to do such great things. I love everything about you beautiful, and I can't wait to. celebrate us in person soon !</p>
+            <p>Thank you for your patience, love, attention, and every single funny Mr. Cheese moments. I'm so lucky to be with you. Here's to many many many more months and almost a year!.</p>
+            <p class="love-sign">All my love,<br />Arthur ♥</p>
+          </div>
+
+          <p class="reveal-sec-title">How much?</p>
+          <div class="loveyou">
+            <div class="loveyou-scroll" id="loveyouScroll">
+              <p class="loveyou-text"><span class="ly-lead">I love you so</span><span id="lySos"></span> <span class="ly-much">much.</span></p>
+            </div>
+            <div class="loveyou-hint">↓ keep scrolling ↓</div>
+          </div>
+
+          <div class="reveal-back">
+            <a href="index.html">← back to the site</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var layer = document.getElementById("hearts");
+      var GLYPHS = ["♥", "♡"];
+      var COUNT = 26;
+      for (var i = 0; i < COUNT; i++) {
+        var h = document.createElement("span");
+        h.className = "heart";
+        h.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        var size = 10 + Math.random() * 22;
+        var dur = 7 + Math.random() * 9;
+        h.style.left = (Math.random() * 100).toFixed(2) + "vw";
+        h.style.fontSize = size.toFixed(1) + "px";
+        h.style.animationDuration = dur.toFixed(2) + "s";
+        h.style.animationDelay = (-Math.random() * dur).toFixed(2) + "s";
+        h.style.setProperty("--o", (0.25 + Math.random() * 0.45).toFixed(2));
+        layer.appendChild(h);
+      }
+    })();
+
+    (function () {
+      var form = document.getElementById("gateForm");
+      var pw = document.getElementById("pw");
+      var err = document.getElementById("err");
+      var stage = document.getElementById("stage");
+      var ANSWER = "artha krim";
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var v = (pw.value || "").trim().toLowerCase();
+        if (v === ANSWER) {
+          stage.classList.add("unlocked");
+          document.body.classList.add("unlocked");
+          startCountdown();
+          fireConfetti();
+        } else {
+          err.textContent = "Not quite. Try again.";
+          pw.value = "";
+          pw.focus();
+        }
+      });
+    })();
+
+    function startCountdown() {
+      var target = new Date("2026-10-04T00:00:00").getTime();
+      var grid = document.getElementById("cdGrid");
+      var label = document.getElementById("cdLabel");
+      var elDays = document.getElementById("cdDays");
+      var elHours = document.getElementById("cdHours");
+      var elMins = document.getElementById("cdMins");
+      var elSecs = document.getElementById("cdSecs");
+      function pad(n) { return (n < 10 ? "0" : "") + n; }
+      function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          grid.innerHTML = "";
+          label.className = "cd-done";
+          label.textContent = "One year. Happy anniversary ♥";
+          clearInterval(timer);
+          return;
+        }
+        var s = Math.floor(diff / 1000);
+        elDays.textContent = Math.floor(s / 86400);
+        elHours.textContent = pad(Math.floor((s % 86400) / 3600));
+        elMins.textContent = pad(Math.floor((s % 3600) / 60));
+        elSecs.textContent = pad(s % 60);
+      }
+      tick();
+      var timer = setInterval(tick, 1000);
+    }
+
+    function fireConfetti() {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var canvas = document.getElementById("confetti");
+      var ctx = canvas.getContext("2d");
+      var dpr = window.devicePixelRatio || 1;
+      function size() {
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      size();
+      window.addEventListener("resize", size);
+      var W = window.innerWidth, H = window.innerHeight;
+      var colors = ["#b2c9ad", "#91ac8f", "#ffffff", "#e9b7a6", "#f2d6a2"];
+      var shapes = ["rect", "heart"];
+      var pieces = [];
+      var N = 150;
+      for (var i = 0; i < N; i++) {
+        pieces.push({
+          x: W / 2 + (Math.random() - 0.5) * 120,
+          y: H * 0.42 + (Math.random() - 0.5) * 60,
+          vx: (Math.random() - 0.5) * 14,
+          vy: Math.random() * -16 - 4,
+          g: 0.32 + Math.random() * 0.14,
+          size: 6 + Math.random() * 7,
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.3,
+          color: colors[(Math.random() * colors.length) | 0],
+          shape: shapes[(Math.random() * shapes.length) | 0],
+          life: 0
+        });
+      }
+      function heartPath(c, s) {
+        c.beginPath();
+        c.moveTo(0, s * 0.3);
+        c.bezierCurveTo(0, 0, -s, 0, -s, s * 0.35);
+        c.bezierCurveTo(-s, s * 0.75, 0, s, 0, s * 1.15);
+        c.bezierCurveTo(0, s, s, s * 0.75, s, s * 0.35);
+        c.bezierCurveTo(s, 0, 0, 0, 0, s * 0.3);
+        c.closePath();
+        c.fill();
+      }
+      var start = performance.now();
+      function frame(now) {
+        var elapsed = now - start;
+        ctx.clearRect(0, 0, W, H);
+        var alive = false;
+        for (var i = 0; i < pieces.length; i++) {
+          var p = pieces[i];
+          p.vy += p.g;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vx *= 0.99;
+          p.rot += p.vr;
+          p.life++;
+          var a = Math.max(0, 1 - elapsed / 3200);
+          if (p.y < H + 40 && a > 0) alive = true;
+          ctx.save();
+          ctx.globalAlpha = a;
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          if (p.shape === "heart") {
+            heartPath(ctx, p.size * 0.5);
+          } else {
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          }
+          ctx.restore();
+        }
+        if (alive) {
+          requestAnimationFrame(frame);
+        } else {
+          ctx.clearRect(0, 0, W, H);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    (function () {
+      var sos = document.getElementById("lySos");
+      var box = document.getElementById("loveyouScroll");
+      if (!sos || !box) return;
+      function addSos(n) {
+        var chunk = "";
+        for (var i = 0; i < n; i++) chunk += " so";
+        sos.textContent += chunk;
+      }
+      addSos(500);
+      // Keep it (nearly) endless — the more you scroll toward "much", the further it runs.
+      box.addEventListener("scroll", function () {
+        if (box.scrollTop + box.clientHeight >= box.scrollHeight - 400) {
+          addSos(500);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

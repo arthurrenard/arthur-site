@@ -7,8 +7,34 @@
   <meta name="description" content="The story behind the blend — an early-career, AI-native builder grounded in math, with a finance instinct and a life full of music, scouting, and curiosity." />
   <meta property="og:title" content="About — Arthur Renard" />
   <meta property="og:description" content="An early-career, AI-native builder grounded in math, with a finance instinct." />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Arthur Renard" />
+  <meta property="og:url" content="https://arthur-renard.com/about.html" />
+  <meta property="og:image" content="https://arthur-renard.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Arthur Renard — Math · AI · Finance" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About — Arthur Renard" />
+  <meta name="twitter:description" content="An early-career, AI-native builder grounded in math, with a finance instinct." />
+  <meta name="twitter:image" content="https://arthur-renard.com/og-image.png" />
+  <link rel="canonical" href="https://arthur-renard.com/about.html" />
+  <meta name="author" content="Arthur Renard" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="theme-color" content="#4b5945" />
+
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* invisible easter-egg link — looks and behaves like plain text */
+    .secret-part { color: inherit; text-decoration: none; cursor: text; }
+    .secret-part:hover { color: inherit; }
+  </style>
 </head>
 <body>
   <div class="bg-field"></div>
@@ -91,7 +117,7 @@
             debugging time by 60%, and consulted for multiple businesses through Microfinance at Berkeley.
           </p>
           <p data-i18n="aboutP4">
-            Here's the important part: I'm not claiming to be a senior engineer. I'm a fast, broad, curious
+            Here's the important <a href="us.html" class="secret-part">part</a>: I'm not claiming to be a senior engineer. I'm a fast, broad, curious
             builder who's early to collecting range, so the depth compounds later. Pragmatic about shipping,
             serious about work, and persistently learning.
           </p>
@@ -114,13 +140,13 @@
                 <h3 data-i18n="beyondMusicH">Multi-instrumentalist</h3>
                 <p data-i18n="beyondMusicP">Bass, guitar, drums, piano, and vocals. Since I was seven, I've played in several bands and
                 recorded with Pro Tools. To me, music is a beautiful logic rooted in mathematical principles.</p>
-                <p class="guitar-card-note">I also like to modify instruments themselves! Here's a black Strat I refinished into a Van Halen-style Frankenstrat and rewired with a Seymour Duncan humbucker.</p>
+                <p class="guitar-card-note" data-i18n="beyondGuitarNote">I also like to modify instruments themselves! Here's a black Strat I refinished into a Van Halen-style Frankenstrat and rewired with a Seymour Duncan humbucker.</p>
               </div>
               <button class="guitar-thumb" type="button" id="guitarTrigger" aria-label="Open the guitar build gallery — 6 photos">
                 <img src="images/guitar-7-final.png" alt="The finished red, white and black striped Frankenstrat guitar I built" loading="lazy" />
                 <span class="guitar-thumb-veil"></span>
                 <span class="guitar-thumb-hint">
-                  <span class="gth-label">Click to see my guitar's transformation</span>
+                  <span class="gth-label" data-i18n="guitarHint">Click to see my guitar's transformation</span>
                   <span class="gth-arr" aria-hidden="true">→</span>
                 </span>
               </button>
@@ -168,7 +194,7 @@
     <div class="glb-backdrop" data-glb-close></div>
     <div class="glb-dialog" role="document">
       <header class="glb-bar">
-        <span class="glb-eyebrow">The Frankenstrat build</span>
+        <span class="glb-eyebrow" data-i18n="glbEyebrow">The Frankenstrat build</span>
         <button class="glb-close" type="button" aria-label="Close gallery" data-glb-close>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
         </button>

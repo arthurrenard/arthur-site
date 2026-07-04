@@ -8,35 +8,47 @@
   var STEPS = [
     {
       src: "images/guitar-1-teardown.png",
+      tKey: "guitarT1", dKey: "guitarD1",
       title: "Teardown & sanding",
       desc: "Stripped the guitar down to a bare body — pickguard off, all the electronics out — then sanded the old finish back to a flat, even surface (photographing the wiring first so reassembly wouldn't be guesswork).",
     },
     {
       src: "images/guitar-4-masking.jpg",
+      tKey: "guitarT2", dKey: "guitarD2",
       title: "White base + masking",
       desc: "Sprayed a white base coat over the whole body, then hand-masked the Frankenstrat stripe pattern with tape. The tape is what guards the white you see in the final design.",
     },
     {
       src: "images/guitar-3-crop.jpg",
+      tKey: "guitarT3", dKey: "guitarD3",
       title: "Black coat + gold flake",
       desc: "Laid black over the taped body, then flicked gold specks across the back — a one-off finish you won't find on any factory guitar.",
     },
     {
       src: "images/guitar-red-crop.jpg",
+      tKey: "guitarT4", dKey: "guitarD4",
       title: "Cherry red",
       desc: "The final color goes on: cherry red, sprayed over everything. Under all that red, the tape is still holding the whole pattern in place.",
     },
     {
       src: "images/guitar-5-crop.jpg",
+      tKey: "guitarT5", dKey: "guitarD5",
       title: "Peel the tape",
       desc: "Peeling the tape back reveals the stripes hiding underneath — the classic red, white, and black Frankenstrat pattern, crisp lines and all.",
     },
     {
       src: "images/guitar-7-final.png",
+      tKey: "guitarT6", dKey: "guitarD6",
       title: "Reassembled & wired hot",
       desc: "Back together with a Seymour Duncan SH-4 JB humbucker in the bridge, locking tuners, and fresh strings. Fatter EVH tone, screaming harmonics, and far less buzz.",
     },
   ];
+
+  // Pull a localized string, falling back to the English baked into STEPS.
+  function t(key, fallback) {
+    var s = window.SiteI18n && window.SiteI18n.str ? window.SiteI18n.str(key) : undefined;
+    return s || fallback;
+  }
 
   var lb = document.getElementById("guitarLightbox");
   var trigger = document.getElementById("guitarTrigger");
@@ -67,7 +79,7 @@
     d.className = "glb-dot";
     d.type = "button";
     d.setAttribute("role", "tab");
-    d.setAttribute("aria-label", "Step " + (i + 1) + ": " + s.title);
+    d.setAttribute("aria-label", "Step " + (i + 1) + ": " + t(s.tKey, s.title));
     d.addEventListener("click", function () { go(i); });
     dotsEl.appendChild(d);
   });
@@ -77,15 +89,17 @@
 
   function render() {
     var s = STEPS[idx];
+    var sTitle = t(s.tKey, s.title);
     imgEl.classList.remove("is-in");
     // swap after a tick so the fade restarts
     imgEl.src = s.src;
-    imgEl.alt = s.title + " — step " + (idx + 1) + " of the guitar build";
+    imgEl.alt = sTitle + " — step " + (idx + 1) + " of the guitar build";
     numEl.textContent = pad(idx + 1);
-    titleEl.textContent = s.title;
-    descEl.textContent = s.desc;
+    titleEl.textContent = sTitle;
+    descEl.textContent = t(s.dKey, s.desc);
     dots.forEach(function (d, i) {
       d.classList.toggle("active", i === idx);
+      d.setAttribute("aria-label", "Step " + (i + 1) + ": " + t(STEPS[i].tKey, STEPS[i].title));
       if (i === idx) d.setAttribute("aria-selected", "true");
       else d.removeAttribute("aria-selected");
     });
@@ -126,6 +140,11 @@
     else if (e.key === "ArrowRight") { next(); }
     else if (e.key === "ArrowLeft") { prev(); }
   }
+
+  // Re-render captions live if the visitor switches language while open.
+  document.addEventListener("langchange", function () {
+    if (lb.classList.contains("open")) render();
+  });
 
   trigger.addEventListener("click", function () { open(0); });
   nextBtn.addEventListener("click", next);
