@@ -97,15 +97,32 @@
             </div>
             <div class="project-intro">
               <h2>Bright.AI</h2>
-              <span class="role" data-i18n="roleSWEIntern">Software Engineering Intern</span>
-              <span class="status-now" data-i18n="statusCurrent"><span class="status-dot"></span>Currently working here</span>
-              <p data-i18n="brightP">Working in the wearable applied AI field by building software that brings machine intelligence into the real world.</p>
+              <span class="role" data-i18n="roleAIIntern">AI Intern</span>
+              <span class="status-past" data-i18n="brightDates">Summer 2026 · extended through September</span>
+              <p data-i18n="brightP">
+                I built software that brings machine intelligence into the real world, from overhead
+                cameras on an industrial floor to a wearable for field technicians. After the summer,
+                my contract was extended through September so I could keep developing the
+                computer-vision model.
+              </p>
+              <ul class="project-points">
+                <li data-i18n="brightB1">Built an end-to-end computer-vision system for a waste-to-energy facility from raw, unlabeled footage: frame ingestion, <strong>SAM3</strong> auto-labeling, and <strong>YOLO11</strong> fine-tuning.</li>
+                <li data-i18n="brightB2">Deployed the detector with TensorRT to a <strong>Jetson Orin</strong> edge hub (155 ms/frame, zero dropped frames), ran it live in shadow mode, and demoed it to the client and our CTO.</li>
+                <li data-i18n="brightB3">Benchmarked on-device LLMs for an industrial wearable's knowledge-graph RAG assistant, using a <strong>377-question</strong> golden set and a latency model that drove the model-size decision.</li>
+                <li data-i18n="brightB4">Indexed a <strong>67-repo</strong> IoT platform into a queryable code knowledge graph over MCP, then ran an AI-assisted security audit that surfaced critical findings.</li>
+              </ul>
               <div class="tag-row">
+                <span class="chip" data-i18n="chipCV">Computer vision</span>
+                <span class="chip" data-i18n="chipEdgeAI">Edge AI</span>
+                <span class="chip" data-i18n="chipOnDeviceLLM">On-device LLMs</span>
+                <span class="chip" data-i18n="chipKG">Knowledge graphs</span>
                 <span class="chip" data-i18n="chipWearables">Wearables</span>
-                <span class="chip" data-i18n="chipAppliedAI">Applied AI</span>
-                <span class="chip" data-i18n="chipSWEng">Software engineering</span>
               </div>
             </div>
+          </div>
+          <div class="project-stat glass">
+            <div class="stat-num">19×</div>
+            <div class="stat-label" data-i18n="brightStatLabel">real-time headroom for the detector on the edge GPU</div>
           </div>
           <div class="project-shots">
             <figure>
@@ -165,12 +182,19 @@
             <div class="project-intro">
               <h2>Microfinance at Berkeley</h2>
               <span class="role" data-i18n="roleMicrofinance">Project Manager &amp; Head of Finance Committee</span>
+              <span class="status-now" data-i18n="statusCurrent"><span class="status-dot"></span>Currently working here</span>
+              <p data-i18n="microJnJ">
+                I'm now a <strong>Project Manager</strong> for <strong>Johnson &amp; Johnson</strong>,
+                doing AI consulting: figuring out where AI can make a real difference in their work,
+                which specific tools fit each case, and possibly building those tools myself.
+              </p>
               <p data-i18n="microP">
                 Consulting for all-size businesses, small through corporate, and supporting KIVA
                 crowdfunding. I automated our data-visualization pipelines, cutting coding and debugging
                 time without uploading sensitive data to any LLMs.
               </p>
               <div class="tag-row">
+                <span class="chip" data-i18n="chipAIConsulting">AI consulting</span>
                 <span class="chip" data-i18n="chipSMB">SMB consulting</span>
                 <span class="chip">KIVA crowdfunding</span>
                 <span class="chip" data-i18n="chipDataViz">Data viz automation</span>

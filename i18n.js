@@ -342,24 +342,64 @@
     },
 
     /* ---- Work · Bright.AI ---- */
-    roleSWEIntern: {
-      fr: `Stagiaire en génie logiciel`,
-      ko: `소프트웨어 엔지니어링 인턴`,
-      es: `Becario de Ingeniería de Software`,
+    roleAIIntern: {
+      fr: `Stagiaire en IA`,
+      ko: `AI 인턴`,
+      es: `Becario de IA`,
     },
     statusCurrent: {
       fr: `<span class="status-dot"></span>En poste actuellement`,
       ko: `<span class="status-dot"></span>현재 근무 중`,
       es: `<span class="status-dot"></span>Trabajando aquí actualmente`,
     },
-    brightP: {
-      fr: `Je travaille dans le domaine de l'IA appliquée aux objets connectés, en développant des logiciels qui amènent l'intelligence machine dans le monde réel.`,
-      ko: `웨어러블 응용 AI 분야에서 머신 인텔리전스를 현실 세계로 가져오는 소프트웨어를 만들고 있습니다.`,
-      es: `Trabajo en el campo de la IA aplicada a wearables, desarrollando software que lleva la inteligencia de las máquinas al mundo real.`,
+    brightDates: {
+      fr: `Été 2026 · prolongé jusqu'en septembre`,
+      ko: `2026년 여름 · 9월까지 연장`,
+      es: `Verano de 2026 · extendido hasta septiembre`,
     },
-    chipWearables: { fr: `Objets connectés`, ko: `웨어러블`, es: `Wearables` },
-    chipAppliedAI: { fr: `IA appliquée`, ko: `응용 AI`, es: `IA aplicada` },
-    chipSWEng:     { fr: `Génie logiciel`, ko: `소프트웨어 엔지니어링`, es: `Ingeniería de software` },
+    brightP: {
+      fr: `J'ai développé des logiciels qui amènent l'intelligence machine dans le monde réel, des caméras installées au-dessus d'un site industriel jusqu'à un objet connecté pour techniciens de terrain. Après l'été, mon contrat a été prolongé jusqu'en septembre pour que je continue à développer le modèle de vision par ordinateur.`,
+      ko: `산업 현장 위에 설치된 카메라부터 현장 기술자용 웨어러블까지, 머신 인텔리전스를 현실 세계로 가져오는 소프트웨어를 만들었습니다. 여름 이후에는 컴퓨터 비전 모델 개발을 이어가기 위해 계약이 9월까지 연장되었습니다.`,
+      es: `Desarrollé software que lleva la inteligencia de las máquinas al mundo real, desde cámaras cenitales en una planta industrial hasta un wearable para técnicos de campo. Después del verano, mi contrato se extendió hasta septiembre para seguir desarrollando el modelo de visión por computadora.`,
+    },
+    brightB1: {
+      fr: `Conçu un système complet de vision par ordinateur pour une usine de valorisation énergétique des déchets, à partir d'images brutes non annotées : ingestion des images, annotation automatique avec <strong>SAM3</strong> et fine-tuning de <strong>YOLO11</strong>.`,
+      ko: `폐기물 에너지화 시설을 위해 라벨이 없는 원본 영상에서 출발해 엔드투엔드 컴퓨터 비전 시스템을 구축했습니다: 프레임 수집, <strong>SAM3</strong> 자동 라벨링, <strong>YOLO11</strong> 파인튜닝.`,
+      es: `Construí un sistema de visión por computadora de extremo a extremo para una planta de conversión de residuos en energía, a partir de video sin etiquetar: ingesta de fotogramas, etiquetado automático con <strong>SAM3</strong> y ajuste fino de <strong>YOLO11</strong>.`,
+    },
+    brightB2: {
+      fr: `Déployé le détecteur avec TensorRT sur un boîtier edge <strong>Jetson Orin</strong> (155 ms/image, aucune image perdue), exécuté en direct en mode shadow, et présenté au client et à notre CTO.`,
+      ko: `TensorRT로 탐지 모델을 <strong>Jetson Orin</strong> 엣지 허브에 배포하고(프레임당 155ms, 프레임 손실 0), 섀도 모드로 실시간 운영하며 고객사와 CTO에게 시연했습니다.`,
+      es: `Desplegué el detector con TensorRT en un hub edge <strong>Jetson Orin</strong> (155 ms/fotograma, cero fotogramas perdidos), lo ejecuté en vivo en modo sombra y lo presenté al cliente y a nuestro CTO.`,
+    },
+    brightB3: {
+      fr: `Évalué des LLM embarqués pour l'assistant RAG à graphe de connaissances d'un objet connecté industriel, avec un jeu de référence de <strong>377 questions</strong> et un modèle de latence qui a orienté le choix de la taille du modèle.`,
+      ko: `산업용 웨어러블의 지식 그래프 RAG 어시스턴트를 위해 온디바이스 LLM을 벤치마킹했습니다. <strong>377개 질문</strong>의 골든 세트와 지연 시간 모델을 활용해 모델 크기 결정을 이끌었습니다.`,
+      es: `Evalué LLM en el dispositivo para el asistente RAG con grafo de conocimiento de un wearable industrial, usando un conjunto de referencia de <strong>377 preguntas</strong> y un modelo de latencia que guió la elección del tamaño del modelo.`,
+    },
+    brightB4: {
+      fr: `Indexé une plateforme IoT de <strong>67 dépôts</strong> dans un graphe de connaissances du code interrogeable via MCP, puis mené un audit de sécurité assisté par IA qui a révélé des failles critiques.`,
+      ko: `<strong>67개 저장소</strong>로 이루어진 IoT 플랫폼을 MCP 기반의 질의 가능한 코드 지식 그래프로 인덱싱하고, AI 보조 보안 감사를 수행해 치명적인 문제들을 찾아냈습니다.`,
+      es: `Indexé una plataforma IoT de <strong>67 repositorios</strong> en un grafo de conocimiento de código consultable mediante MCP y luego realicé una auditoría de seguridad asistida por IA que reveló hallazgos críticos.`,
+    },
+    brightStatLabel: {
+      fr: `de marge temps réel pour le détecteur sur le GPU embarqué`,
+      ko: `엣지 GPU에서 탐지 모델의 실시간 처리 여유`,
+      es: `de margen en tiempo real para el detector en la GPU edge`,
+    },
+    chipCV:          { fr: `Vision par ordinateur`, ko: `컴퓨터 비전`, es: `Visión por computadora` },
+    chipEdgeAI:      { fr: `IA embarquée`, ko: `엣지 AI`, es: `IA en el edge` },
+    chipOnDeviceLLM: { fr: `LLM embarqués`, ko: `온디바이스 LLM`, es: `LLM en el dispositivo` },
+    chipKG:          { fr: `Graphes de connaissances`, ko: `지식 그래프`, es: `Grafos de conocimiento` },
+    chipWearables:   { fr: `Objets connectés`, ko: `웨어러블`, es: `Wearables` },
+
+    /* ---- Work · Microfinance · Johnson & Johnson ---- */
+    microJnJ: {
+      fr: `Je suis désormais <strong>chef de projet</strong> pour <strong>Johnson &amp; Johnson</strong>, en conseil en IA : identifier où l'IA peut vraiment faire la différence dans leur travail, quels outils précis conviennent à chaque cas, et éventuellement développer ces outils moi-même.`,
+      ko: `현재 <strong>Johnson &amp; Johnson</strong>의 <strong>프로젝트 매니저</strong>로서 AI 컨설팅을 하고 있습니다. AI가 업무에서 실질적인 차이를 만들 수 있는 부분과 각 사례에 맞는 구체적인 도구를 찾아내고, 필요하면 그 도구를 직접 개발할 수도 있습니다.`,
+      es: `Ahora soy <strong>Gerente de Proyecto</strong> para <strong>Johnson &amp; Johnson</strong>, haciendo consultoría de IA: identificar dónde la IA puede marcar una diferencia real en su trabajo, qué herramientas concretas encajan en cada caso y, posiblemente, desarrollar esas herramientas yo mismo.`,
+    },
+    chipAIConsulting: { fr: `Conseil en IA`, ko: `AI 컨설팅`, es: `Consultoría de IA` },
 
     /* ---- About · guitar ---- */
     beyondGuitarNote: {
