@@ -963,6 +963,45 @@ body.glb-lock { overflow: hidden; }
   .status-now .status-dot { animation: none; }
 }
 
+/* Dates for a finished role (no pulsing dot) */
+.status-past {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--white-faint);
+  vertical-align: middle;
+}
+
+/* Highlight bullets inside a project card */
+.project-points {
+  list-style: none;
+  margin: -6px 0 24px;
+  padding: 0;
+  max-width: 64ch;
+  display: grid;
+  gap: 10px;
+}
+.project-points li {
+  position: relative;
+  padding-left: 20px;
+  color: var(--white-soft);
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+.project-points li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.68em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage-light);
+}
+.project-points strong { color: var(--white); font-weight: 600; }
+
 .tag-row { display: flex; flex-wrap: wrap; gap: 9px; }
 .chip {
   font-size: 13px;
