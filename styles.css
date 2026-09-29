@@ -1383,3 +1383,461 @@ body.glb-lock { overflow: hidden; }
   .nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
   .nav.open .nav-toggle span:nth-child(3) { transform: translateY(-5.6px) rotate(-45deg); }
 }
+
+/* ===========================================================
+   In-place navigation (router.js)
+   =========================================================== */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+main:focus { outline: none; }
+
+/* ===========================================================
+   Click Me pill (morph.js)
+   One shape: width/height/fill are driven by springs in JS; the
+   label and the three page links swap inside it with a short blur.
+   =========================================================== */
+.cm { position: relative; display: inline-flex; align-items: center; }
+/* No JS: the three pages are plain links. */
+html:not(.js) .cm-trigger, html:not(.js) .cm-fill, html:not(.js) .cm-ind { display: none; }
+html:not(.js) .cm-options { display: flex; flex-wrap: wrap; gap: 10px; }
+html:not(.js) .cm-opt {
+  padding: 14px 26px; border-radius: 100px;
+  background: rgba(255,255,255,0.07); border: 1px solid var(--glass-border);
+}
+
+html.js .cm {
+  height: 52px;
+  border-radius: 100px;
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 34px -14px rgba(0,0,0,0.7);
+}
+html.js .cm-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, var(--sage-light), var(--sage));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  pointer-events: none;
+}
+html.js .cm-trigger {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  font: inherit;
+  color: var(--ink-on-light);
+  cursor: pointer;
+  z-index: 2;
+}
+html.js .cm[data-state="open"] .cm-trigger { pointer-events: none; }
+.cm-trigger:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--ink-on-light); }
+.cm-trigger-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  padding: 0 28px;
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+html.js .cm-options {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  margin: 0;
+  z-index: 1;
+  visibility: hidden;
+}
+.cm-opt {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 100px;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 15.5px;
+  font-weight: 550;
+  white-space: nowrap;
+  transition: color 0.2s var(--ease);
+}
+.cm-opt.hot { color: var(--ink-on-light); }
+.cm-opt:focus-visible { outline: 2px solid var(--sage-light); outline-offset: 2px; }
+.cm-ind {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 40px;
+  margin-top: -20px;
+  width: 0;
+  border-radius: 100px;
+  background: linear-gradient(145deg, var(--sage-light), var(--sage));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The pill in flight to the nav (a fixed copy; the real one hides). */
+.cm-ghost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 150;
+  border-radius: 100px;
+  overflow: hidden;
+  pointer-events: none;
+  border: 1px solid transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.cm-ghost .cm-options {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: auto;
+  transform: translateY(-50%);
+  visibility: visible;
+}
+.cm-ghost .cm-ghost-links {
+  position: absolute !important;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  opacity: 0;
+  visibility: visible !important;
+  filter: none;
+}
+
+/* ---- Liquid nav indicator + home docking ---- */
+@media (min-width: 761px) {
+  .nav-links { margin-left: auto; position: relative; }
+  .nav-links a { z-index: 1; }
+  /* The active tab keeps its own green highlight; only while moving
+     between tabs does the sliding .nav-ind stand in for it. */
+  .nav-links.sliding a.active {
+    background: none;
+    box-shadow: none;
+    color: var(--white);
+  }
+  .nav-links, .nav-toggle {
+    transition: opacity 0.35s var(--ease), filter 0.35s var(--ease), visibility 0s linear 0s;
+  }
+  .nav.docked .nav-links {
+    opacity: 0;
+    filter: blur(6px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease), filter 0.25s var(--ease), visibility 0s linear 0.25s;
+  }
+}
+.nav-ind {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-radius: 100px;
+  background: linear-gradient(145deg, var(--sage-light), var(--sage));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+}
+.nav.docked .nav-toggle {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.nav.nav-instant .nav-links,
+.nav.nav-instant .nav-toggle { transition: none !important; }
+@media (max-width: 760px) {
+  .nav-ind { display: none; }
+  .nav-toggle { transition: opacity 0.3s var(--ease), visibility 0s linear 0s; }
+}
+
+/* ===========================================================
+   Sound: nav button → mini player, toggles menu, toasts (sound.js)
+   =========================================================== */
+.snd { position: relative; flex: none; margin-left: 10px; }
+.snd-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;   /* the button stays put; the player grows out to its left */
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--glass-border);
+}
+.snd-player {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 4px 0 4px;
+  visibility: hidden;
+}
+.snd-play {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--ink-on-light);
+  background: linear-gradient(145deg, var(--sage-light), var(--sage));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+}
+.snd-play svg { width: 16px; height: 16px; fill: currentColor; }
+.snd-play:focus-visible, .snd-btn:focus-visible, .snd-bar:focus-visible, .vol:focus-visible, .sw:focus-visible {
+  outline: 2px solid var(--sage-light);
+  outline-offset: 2px;
+}
+.snd-meta { display: flex; flex-direction: column; gap: 5px; width: 96px; }
+.snd-title {
+  font-size: 11.5px;
+  font-weight: 550;
+  letter-spacing: 0.01em;
+  color: var(--white-soft);
+  white-space: nowrap;
+  line-height: 1;
+}
+.snd-bar { position: relative; height: 12px; margin: -4px 0; cursor: pointer; touch-action: none; }
+.snd-bar-track {
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+.snd-bar-fill { display: block; height: 100%; width: 0; background: var(--sage-light); border-radius: 3px; }
+.snd-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--white-soft);
+  cursor: pointer;
+}
+.snd-btn:hover { color: var(--white); }
+.snd-eq { display: flex; align-items: center; gap: 2.5px; height: 16px; }
+.snd-eq i {
+  display: block;
+  width: 2.5px;
+  border-radius: 2px;
+  background: currentColor;
+  height: 6px;
+}
+.snd-eq i:nth-child(2) { height: 12px; }
+.snd-eq i:nth-child(3) { height: 9px; }
+.snd-eq i:nth-child(4) { height: 5px; }
+.snd.playing .snd-btn { color: var(--sage-light); }
+.snd.playing .snd-eq i { animation: snd-eq 0.9s ease-in-out infinite alternate; }
+.snd.playing .snd-eq i:nth-child(2) { animation-duration: 0.7s; animation-delay: -0.3s; }
+.snd.playing .snd-eq i:nth-child(3) { animation-duration: 1.1s; animation-delay: -0.6s; }
+.snd.playing .snd-eq i:nth-child(4) { animation-duration: 0.8s; animation-delay: -0.2s; }
+@keyframes snd-eq { from { height: 3px; } to { height: 15px; } }
+@media (prefers-reduced-motion: reduce) { .snd.playing .snd-eq i { animation: none; } }
+
+.snd-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 292px;
+  padding: 8px;
+  border-radius: 20px;
+  background: rgba(52, 63, 48, 0.86);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: var(--shadow-deep), inset 0 1px 0 var(--glass-edge);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 120;
+}
+.snd-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 12px;
+  border-radius: 13px;
+}
+.snd-row + .snd-row { border-top: 1px solid rgba(255, 255, 255, 0.08); border-radius: 0; }
+.snd-row-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.snd-row-title { font-size: 14.5px; font-weight: 550; color: var(--white); }
+.snd-row-sub { font-size: 12.5px; color: var(--white-faint); }
+.snd-vol-row { gap: 18px; }
+.snd:not(.enabled) .snd-vol-row { opacity: 0.45; }
+.snd-credit {
+  margin: 4px 12px 6px;
+  font-size: 11.5px;
+  color: var(--white-faint);
+}
+.snd-credit a { color: var(--white-soft); }
+
+/* Switch: the knob's two edges ride different springs (stretches mid-flip). */
+.sw {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 100px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.sw-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, var(--sage-light), var(--sage));
+  opacity: 0;
+}
+.sw-knob {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Volume: the track stretches past either end while dragged. */
+.vol { position: relative; flex: 1 1 auto; height: 24px; cursor: pointer; touch-action: none; }
+.vol[aria-disabled="true"] { cursor: default; }
+.vol-track {
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.vol-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--sage-light); }
+.vol-knob {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* Toasts */
+.toasts {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 32px);
+  padding: 11px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+  color: var(--white);
+  background: rgba(52, 63, 48, 0.88);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-edge);
+  opacity: 0;
+}
+.toast-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sage-light);
+  box-shadow: 0 0 8px var(--sage-light);
+}
+
+/* Narrower screens: keep the nav on one line. */
+@media (max-width: 1000px) {
+  .snd-title { display: none; }
+  .snd-meta { width: 64px; }
+}
+@media (max-width: 760px) {
+  .snd { margin-left: auto; margin-right: 8px; }
+  .snd-menu { right: -52px; width: min(292px, calc(100vw - 40px)); }
+}
+@media (max-width: 900px) {
+  .snd-meta { display: none; }        /* just play/pause beside the sound button */
+}
+@media (max-width: 480px) {
+  .toast { border-radius: 18px; }
+}
+
+/* Click Me: a small hop every few seconds says "press me" without words.
+   Pauses on hover and keyboard focus; off with reduced motion. */
+@keyframes cm-hop {
+  0%, 58% { transform: translateY(0); }
+  65%     { transform: translateY(-8px); }
+  72%     { transform: translateY(0); }
+  77%     { transform: translateY(-3px); }
+  82%, 100% { transform: translateY(0); }
+}
+html.js .cm[data-state="idle"]:not(:hover) {
+  animation: cm-hop 2.8s ease-in-out 0.8s infinite;
+}
+/* keyboard focus on it: hold still */
+html.js .cm[data-state="idle"]:has(.cm-trigger:focus-visible) { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  html.js .cm { animation: none !important; }
+}

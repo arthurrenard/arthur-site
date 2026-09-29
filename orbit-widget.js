@@ -226,12 +226,15 @@
 
   var raf = null, running = false;
   function loop() {
+    // The page can be swapped out in place (router.js); a detached card
+    // must never keep a render loop alive.
+    if (!card.isConnected) { stop(); return; }
     if (!reduce) pulse += 0.05;
     step();
     draw();
     raf = requestAnimationFrame(loop);
   }
-  function start() { if (!running) { running = true; loop(); } }
+  function start() { if (!card.isConnected) { stop(); return; } if (!running) { running = true; loop(); } }
   function stop() { running = false; if (raf) cancelAnimationFrame(raf); }
 
   // ---- Interaction ----

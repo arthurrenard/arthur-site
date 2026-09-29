@@ -26,12 +26,6 @@
       ko: `수학 <span class="dot">·</span> AI <span class="dot">·</span> 금융<br />만들고, 분석하고, 계산하고, 출시합니다.`,
       es: `Matemáticas <span class="dot">·</span> IA <span class="dot">·</span> Finanzas<br />Crear, analizar, computar y entregar.`,
     },
-    heroConnect: {
-      fr: `Contact <span class="arr">→</span>`,
-      ko: `연락하기 <span class="arr">→</span>`,
-      es: `Contacto <span class="arr">→</span>`,
-    },
-    heroSeeWork: { fr: `Voir les projets`, ko: `프로젝트 보기`, es: `Ver el trabajo` },
     badgeClass: {
       fr: `<span class="badge-dot"></span> Promotion 2029`,
       ko: `<span class="badge-dot"></span> 2029년 졸업 예정`,
@@ -352,6 +346,26 @@
       es: `Matemáticas · IA · Finanzas. Gracias por pasar.`,
     },
 
+    /* ---- Home · Click Me pill ---- */
+    clickMe: { fr: `Cliquez ici`, ko: `눌러 보세요`, es: `Haz clic` },
+
+    /* ---- Sound menu, mini player and toasts (sound.js) ---- */
+    sndSettings: { fr: `Réglages du son`, ko: `사운드 설정`, es: `Ajustes de sonido` },
+    sndMusic:    { fr: `Musique`, ko: `음악`, es: `Música` },
+    sndVolume:   { fr: `Volume`, ko: `볼륨`, es: `Volumen` },
+    sndUi:       { fr: `Sons de l'interface`, ko: `인터페이스 효과음`, es: `Sonidos de la interfaz` },
+    sndUiSub:    { fr: `De légers clics sur les boutons`, ko: `버튼을 누를 때 부드러운 클릭음`, es: `Clics suaves en los botones` },
+    sndCredit:   { fr: `Musique`, ko: `음악`, es: `Música` },
+    sndPlay:     { fr: `Lire la musique`, ko: `음악 재생`, es: `Reproducir música` },
+    sndPause:    { fr: `Mettre la musique en pause`, ko: `음악 일시정지`, es: `Pausar la música` },
+    sndSeek:     { fr: `Position dans le morceau`, ko: `재생 위치`, es: `Posición de la canción` },
+    toastNowPlaying: { fr: `En écoute`, ko: `재생 중`, es: `Sonando` },
+    toastMusicOff:   { fr: `Musique coupée`, ko: `음악 끔`, es: `Música apagada` },
+    toastUiOn:       { fr: `Sons de l'interface activés`, ko: `인터페이스 효과음 켬`, es: `Sonidos de la interfaz activados` },
+    toastUiOff:      { fr: `Sons de l'interface désactivés`, ko: `인터페이스 효과음 끔`, es: `Sonidos de la interfaz desactivados` },
+    toastResume:     { fr: `La musique était activée · appuyez sur lecture pour reprendre`, ko: `음악이 켜져 있었어요 · 재생을 눌러 이어 들으세요`, es: `La música estaba activada · pulsa reproducir para continuar` },
+    toastMusicError: { fr: `Impossible de lancer la musique`, ko: `음악을 재생할 수 없어요`, es: `No se pudo iniciar la música` },
+
     /* ---- Home · recommendation (the quote itself stays in English) ---- */
     recRelation: {
       fr: `Collègue senior sur mon projet de vision par ordinateur chez BrightAI`,
@@ -489,11 +503,24 @@
   const STORE_KEY = "site-lang";
 
   // Cache each element's English markup once, so switching back is lossless.
-  const nodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
+  let nodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   nodes.forEach(function (el) { el._en = el.innerHTML; });
-  const phNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n-ph]"));
+  let phNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n-ph]"));
   phNodes.forEach(function (el) { el._enPh = el.getAttribute("placeholder") || ""; });
   let currentLang = "en";
+
+  function translateNode(el, lang) {
+    const key = el.getAttribute("data-i18n");
+    if (lang === "en") { el.innerHTML = el._en; return; }
+    const entry = DICT[key];
+    el.innerHTML = (entry && entry[lang]) || el._en;
+  }
+  function translatePh(el, lang) {
+    const key = el.getAttribute("data-i18n-ph");
+    if (lang === "en") { el.setAttribute("placeholder", el._enPh); return; }
+    const entry = DICT[key];
+    el.setAttribute("placeholder", (entry && entry[lang]) || el._enPh);
+  }
 
   // Expose a tiny helper so other scripts (e.g. contact.js) can localize.
   // Returns undefined for English so callers use their own English fallback.
@@ -503,24 +530,41 @@
       const entry = DICT[key];
       return entry && entry[currentLang];
     },
+    // Localized string with an English fallback, for script-built text.
+    t: function (key, fallback) {
+      if (currentLang === "en") return fallback;
+      const entry = DICT[key];
+      return (entry && entry[currentLang]) || fallback;
+    },
     lang: function () { return currentLang; },
+    // Register content added after load (router.js page swaps, injected UI):
+    // cache its English, drop detached nodes, and translate the new ones.
+    refresh: function (root) {
+      root = root || document;
+      nodes = nodes.filter(function (el) { return el.isConnected; });
+      phNodes = phNodes.filter(function (el) { return el.isConnected; });
+      root.querySelectorAll("[data-i18n]").forEach(function (el) {
+        if (el._en !== undefined) return;
+        el._en = el.innerHTML;
+        nodes.push(el);
+        if (currentLang !== "en") translateNode(el, currentLang);
+      });
+      root.querySelectorAll("[data-i18n-ph]").forEach(function (el) {
+        if (el._enPh !== undefined) return;
+        el._enPh = el.getAttribute("placeholder") || "";
+        phNodes.push(el);
+        if (currentLang !== "en") translatePh(el, currentLang);
+      });
+    },
   };
 
   function apply(lang) {
     currentLang = lang;
-    nodes.forEach(function (el) {
-      const key = el.getAttribute("data-i18n");
-      if (lang === "en") { el.innerHTML = el._en; return; }
-      const entry = DICT[key];
-      el.innerHTML = (entry && entry[lang]) || el._en;
-    });
+    nodes = nodes.filter(function (el) { return el.isConnected; });
+    phNodes = phNodes.filter(function (el) { return el.isConnected; });
+    nodes.forEach(function (el) { translateNode(el, lang); });
     // Translate placeholders (data-i18n-ph)
-    phNodes.forEach(function (el) {
-      const key = el.getAttribute("data-i18n-ph");
-      if (lang === "en") { el.setAttribute("placeholder", el._enPh); return; }
-      const entry = DICT[key];
-      el.setAttribute("placeholder", (entry && entry[lang]) || el._enPh);
-    });
+    phNodes.forEach(function (el) { translatePh(el, lang); });
     document.documentElement.setAttribute("lang", lang);
     const meta = LANGS.find(function (l) { return l.code === lang; }) || LANGS[0];
     const code = document.querySelector(".lang-code");
