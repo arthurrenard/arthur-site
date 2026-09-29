@@ -33,9 +33,9 @@
     },
     heroSeeWork: { fr: `Voir les projets`, ko: `프로젝트 보기`, es: `Ver el trabajo` },
     badgeClass: {
-      fr: `<span class="badge-dot"></span> Promotion 2029 · GPA 3,83`,
-      ko: `<span class="badge-dot"></span> 2029년 졸업 예정 · GPA 3.83`,
-      es: `<span class="badge-dot"></span> Promoción 2029 · GPA 3.83`,
+      fr: `<span class="badge-dot"></span> Promotion 2029`,
+      ko: `<span class="badge-dot"></span> 2029년 졸업 예정`,
+      es: `<span class="badge-dot"></span> Promoción 2029`,
     },
     scrollWord: { fr: `Défiler`, ko: `스크롤`, es: `Desliza` },
 
