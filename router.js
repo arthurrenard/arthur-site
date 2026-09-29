@@ -17,7 +17,8 @@
   var CORE = ["image-slot.js", "app.js", "i18n.js", "router.js", "motion.js", "morph.js", "sound.js"];
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var cache = {};
-  var busy = false;
+  var seq = 0;            // the latest navigation wins; older ones bow out
+  var TIMEOUT = 10000;    // after this, fall back to a normal page load
 
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
@@ -113,10 +114,19 @@
     return Promise.race([a.finished.catch(function () {}), new Promise(function (r) { setTimeout(r, 260); })]);
   }
 
-  function enter() {
-    var m = mainEl();
-    if (reduce || !m || !m.animate) return;
-    m.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
+  // Thin loading bar, shown only when the next page is slow to arrive.
+  var bar = document.createElement("div");
+  bar.className = "route-bar";
+  bar.setAttribute("aria-hidden", "true");
+  document.body.appendChild(bar);
+  function barStart() {
+    bar.className = "route-bar";
+    void bar.offsetWidth;
+    bar.className = "route-bar loading";
+  }
+  function barDone() {
+    if (bar.className.indexOf("loading") === -1) return;
+    bar.className = "route-bar done";
   }
 
   var live = document.createElement("div");
@@ -133,7 +143,6 @@
     if (window.SiteI18n && window.SiteI18n.refresh) window.SiteI18n.refresh(document.body);
     if (window.SiteApp && window.SiteApp.refresh) window.SiteApp.refresh();
     runPageScripts(doc);
-    enter();
     var m = mainEl();
     if (m) {
       m.setAttribute("tabindex", "-1");
@@ -144,24 +153,47 @@
   }
 
   // opts.push (default true) adds a history entry; opts.y restores scroll.
+  // The current page stays on screen until the next one has arrived, so a
+  // slow connection shows a loading bar instead of a blank page.
   function go(href, opts) {
     opts = opts || {};
     var url = new URL(href, location.href);
     if (!isPage(url)) { location.assign(url.href); return Promise.resolve(); }
-    if (busy) return Promise.resolve();
-    busy = true;
+    var id = ++seq;
+    var current = function () { return id === seq; };
     // Remember where we were on the page we're leaving (for Back).
     if (opts.push !== false) history.replaceState({ y: window.scrollY }, "", location.href);
     document.dispatchEvent(new CustomEvent("pageleave", { detail: { page: fileOf(url.pathname) } }));
-    return Promise.all([fetchPage(url), leave()])
-      .then(function (res) {
-        var doc = new DOMParser().parseFromString(res[0], "text/html");
-        swap(doc);
-        if (opts.push !== false) history.pushState({ y: 0 }, "", url.href);
-        arrive(doc, url, opts.y);
+
+    var slowT = setTimeout(function () { if (current()) barStart(); }, 150);
+    var gaveUp = false;
+    var timeoutT = setTimeout(function () {
+      if (!current()) return;
+      gaveUp = true;
+      location.assign(url.href);          // let the browser load it normally
+    }, TIMEOUT);
+
+    return fetchPage(url)
+      .then(function (html) {
+        clearTimeout(slowT);                 // arrived: no loading bar needed from here
+        if (!current() || gaveUp) return;
+        return leave().then(function () {
+          if (!current() || gaveUp) return;
+          var doc = new DOMParser().parseFromString(html, "text/html");
+          swap(doc);
+          if (opts.push !== false) history.pushState({ y: 0 }, "", url.href);
+          arrive(doc, url, opts.y);
+        });
       })
-      .catch(function () { location.assign(url.href); })
-      .then(function () { busy = false; });
+      .catch(function (err) {
+        if (window.console) console.warn("In-place navigation failed; loading the page normally.", err);
+        if (current() && !gaveUp) location.assign(url.href);
+      })
+      .then(function () {
+        clearTimeout(slowT);
+        clearTimeout(timeoutT);
+        if (current()) barDone();
+      });
   }
 
   // ---- Link interception ----
@@ -217,6 +249,19 @@
   Array.prototype.forEach.call(document.querySelectorAll("body script[src]"), function (s) {
     if (CORE.indexOf(scriptName(s.getAttribute("src"))) === -1) s.setAttribute("data-page-script", "");
   });
+
+  // Quietly fetch the other pages once the site has loaded (they're small),
+  // so clicks are instant even on a slow connection. Skipped in data-saver mode.
+  function prefetchAll() {
+    var c = navigator.connection;
+    if (c && c.saveData) return;
+    PAGES.forEach(function (p) {
+      if (p !== fileOf(location.pathname)) fetchPage(new URL(p, location.href));
+    });
+  }
+  var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 1200); };
+  if (document.readyState === "complete") idle(prefetchAll, { timeout: 4000 });
+  else window.addEventListener("load", function () { idle(prefetchAll, { timeout: 4000 }); });
 
   window.SiteRouter = {
     go: go,

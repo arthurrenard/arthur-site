@@ -111,6 +111,9 @@
   }, { passive: true });
 
   // initial paint (and a second pass after fonts/images settle)
+  // app-ready switches off the CSS failsafe that reveals content when this
+  // script is slow to arrive; set it in the same tick as the first reveal pass.
+  document.documentElement.classList.add("app-ready");
   onScroll();
   window.requestAnimationFrame(onScroll);
   window.addEventListener("load", onScroll);
