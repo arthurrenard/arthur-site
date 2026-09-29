@@ -42,18 +42,32 @@
     sr.tune(right ? "snappy" : "lazy").set(r);
   }
 
+  // The active tab owns its green highlight (CSS). On a page change the
+  // indicator appears over the old tab, stretches to the new one, then
+  // hands back to the new tab's own highlight.
+  var lastL = null, lastR = null, slideT = null;
+
   function placeIndicator(instant) {
     if (!ind) return;
     var a = links.querySelector("a.active");
-    if (!a || mobileMq.matches) {
-      instant ? indP.jump(0) : indP.set(0);
-    } else {
-      var l = a.offsetLeft, r = l + a.offsetWidth;
-      if (instant || indP.value() < 0.05) { indL.jump(l); indR.jump(r); }
-      else slideEdges(indL, indR, l, r);
-      instant ? indP.jump(1) : indP.set(1);
-    }
+    var to = a && !mobileMq.matches ? { l: a.offsetLeft, r: a.offsetLeft + a.offsetWidth } : null;
+    var from = lastL === null ? null : { l: lastL, r: lastR };
+    lastL = to ? to.l : null;
+    lastR = to ? to.r : null;
+    if (instant || !to || !from || M.reduced() || (from.l === to.l && from.r === to.r)) { endSlide(); return; }
+    indL.jump(from.l); indR.jump(from.r); indP.jump(1);
+    links.classList.add("sliding");
+    slideEdges(indL, indR, to.l, to.r);
+    clearTimeout(slideT);
+    slideT = setTimeout(endSlide, 900);      // hand back even if frames are paused
     animateIndicator();
+  }
+
+  function endSlide() {
+    clearTimeout(slideT);
+    links.classList.remove("sliding");
+    indP.jump(0);
+    renderIndicator(M.now());
   }
 
   function renderIndicator(t) {
@@ -68,7 +82,11 @@
     renderIndicator(M.now());           // paint now, even if frames are paused
     if (indBusy) return;
     indBusy = true;
-    M.run(function (t) { indBusy = renderIndicator(t); return indBusy; });
+    M.run(function (t) {
+      indBusy = renderIndicator(t);
+      if (!indBusy && links.classList.contains("sliding")) endSlide();
+      return indBusy;
+    });
   }
 
   /* ---------------- Docking (home only) ---------------- */
@@ -116,7 +134,6 @@
     this.hp = new Spring(0, "fade");
 
     root.classList.add("cm-live");
-    try { if (sessionStorage.getItem("cm-seen")) root.classList.add("cm-seen"); } catch (e) {}
     this.items.forEach(function (a) { a.setAttribute("tabindex", "-1"); });
     this.measure(true);
 
@@ -204,11 +221,6 @@
     this.labelP.set(open ? 0 : 1, open ? 0 : 110);
     this.optsP.set(open ? 1 : 0, open ? 110 : 0);
     if (!open) this.highlight(null);
-    if (open) {
-      // They found it: stop the attention hop for the rest of the visit.
-      this.root.classList.add("cm-seen");
-      try { sessionStorage.setItem("cm-seen", "1"); } catch (e) {}
-    }
     fx(open ? "open" : "close");
     this.animate();
   };
@@ -289,13 +301,8 @@
     }
     document.body.appendChild(ghost);
     if (gB) {
-      var chosen = gB.querySelector('a[href="' + href + '"]');
       var gi = gB.querySelector(".nav-ind");
-      if (chosen && gi) {
-        gi.style.transform = "translateX(" + chosen.offsetLeft + "px)";
-        gi.style.width = chosen.offsetWidth + "px";
-        gi.style.opacity = "1";
-      }
+      if (gi) gi.style.display = "none";        // the chosen tab's own highlight shows instead
     }
     this.root.style.visibility = "hidden";
 

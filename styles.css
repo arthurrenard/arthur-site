@@ -1539,11 +1539,12 @@ html.js .cm-options {
 @media (min-width: 761px) {
   .nav-links { margin-left: auto; position: relative; }
   .nav-links a { z-index: 1; }
-  html.js .nav-links a.active {
+  /* The active tab keeps its own green highlight; only while moving
+     between tabs does the sliding .nav-ind stand in for it. */
+  .nav-links.sliding a.active {
     background: none;
     box-shadow: none;
-    color: var(--ink-on-light);
-    transition: color 0.25s var(--ease);
+    color: var(--white);
   }
   .nav-links, .nav-toggle {
     transition: opacity 0.35s var(--ease), filter 0.35s var(--ease), visibility 0s linear 0s;
@@ -1824,19 +1825,19 @@ html.js .cm-options {
 }
 
 /* Click Me: a small hop every few seconds says "press me" without words.
-   Stops on hover/focus and once the visitor has opened it (morph.js adds
-   .cm-seen, remembered for the session). */
+   Pauses on hover and keyboard focus; off with reduced motion. */
 @keyframes cm-hop {
-  0%, 62% { transform: translateY(0); }
-  68%     { transform: translateY(-6px); }
-  74%     { transform: translateY(0); }
-  79%     { transform: translateY(-2.5px); }
-  84%, 100% { transform: translateY(0); }
+  0%, 58% { transform: translateY(0); }
+  65%     { transform: translateY(-8px); }
+  72%     { transform: translateY(0); }
+  77%     { transform: translateY(-3px); }
+  82%, 100% { transform: translateY(0); }
 }
-html.js .cm[data-state="idle"]:not(.cm-seen):not(:hover):not(:focus-within) {
-  animation: cm-hop 3.2s ease-in-out 1.2s infinite;
+html.js .cm[data-state="idle"]:not(:hover) {
+  animation: cm-hop 2.8s ease-in-out 0.8s infinite;
 }
+/* keyboard focus on it: hold still */
+html.js .cm[data-state="idle"]:has(.cm-trigger:focus-visible) { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   html.js .cm { animation: none !important; }
 }
-.no-anim .cm { animation: none !important; }
