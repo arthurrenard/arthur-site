@@ -352,6 +352,18 @@
       es: `Matemáticas · IA · Finanzas. Gracias por pasar.`,
     },
 
+    /* ---- Home · recommendation (the quote itself stays in English) ---- */
+    recRelation: {
+      fr: `Collègue senior sur mon projet de vision par ordinateur chez BrightAI`,
+      ko: `BrightAI 컴퓨터 비전 프로젝트의 선배 팀원`,
+      es: `Compañero sénior en mi proyecto de visión por computadora en BrightAI`,
+    },
+    recSource: {
+      fr: `Recommandation LinkedIn · septembre 2026 <span class="arr">→</span>`,
+      ko: `LinkedIn 추천서 · 2026년 9월 <span class="arr">→</span>`,
+      es: `Recomendación de LinkedIn · septiembre de 2026 <span class="arr">→</span>`,
+    },
+
     /* ---- Work · Bright.AI ---- */
     roleAIIntern: {
       fr: `Stagiaire en IA`,
