@@ -40,15 +40,16 @@
   }
 
   /* ---- Active link (by filename) ---- */
-  if (nav) {
+  function markActive() {
+    if (!nav) return;
     var here = location.pathname.split("/").pop() || "index.html";
     nav.querySelectorAll(".nav-links a").forEach(function (a) {
-      var target = a.getAttribute("href");
-      if (target === here || (here === "" && target === "index.html")) {
-        a.classList.add("active");
-      }
+      a.classList.toggle("active", a.getAttribute("href") === here);
+      if (a.getAttribute("href") === here) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
     });
   }
+  markActive();
 
   /* ---- Reveal: lateral-drift, reversible both directions ----
      Scroll-position based (robust across embedded/preview viewports
@@ -113,6 +114,18 @@
   onScroll();
   window.requestAnimationFrame(onScroll);
   window.addEventListener("load", onScroll);
+
+  // router.js swaps page content in place; re-scan for the new page.
+  window.SiteApp = {
+    refresh: function () {
+      if (nav) nav.classList.remove("open");
+      markActive();
+      revealEls = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+      if (reduce) revealEls.forEach(function (el) { el.classList.add("in"); });
+      onScroll();
+      window.requestAnimationFrame(onScroll);
+    },
+  };
 
   /* ---- Brand monogram: rotating green emoji silhouettes ----
      Each emoji is rendered as a CSS mask so it paints in the brand's
