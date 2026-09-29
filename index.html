@@ -53,7 +53,9 @@
   <link rel="stylesheet" href="styles.css?v=2" />
   <style id="tweak-overrides">
     /* Horizontal-drift controls (driven by the Tweaks panel) */
-    :root { --h-drift-dur: 1.8s; --h-drift-dist: 64px; }
+    /* Defaults match the saved Tweaks below, so the hero looks the same
+       when Home arrives through an in-place page swap (router.js). */
+    :root { --h-drift-dur: 4s; --h-drift-dist: 64px; --portrait-ratio: 1.6; --hero-min: 82vh; }
     .reveal[data-drift="left"]  { --drift: calc(var(--h-drift-dist) * -1); }
     .reveal[data-drift="right"] { --drift: var(--h-drift-dist); }
     .reveal[data-drift="left"],

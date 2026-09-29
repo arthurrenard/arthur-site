@@ -61,6 +61,15 @@
     var fromC = doc.head.querySelector('link[rel="canonical"]');
     var toC = document.head.querySelector('link[rel="canonical"]');
     if (fromC && toC) toC.setAttribute("href", fromC.getAttribute("href"));
+    // Page-specific <style> blocks (e.g. the home hero layout) travel with the page.
+    Array.prototype.forEach.call(document.head.querySelectorAll("style[data-page-style]"), function (s) {
+      s.parentNode.removeChild(s);
+    });
+    Array.prototype.forEach.call(doc.head.querySelectorAll("style"), function (s) {
+      var n = document.importNode(s, true);
+      n.setAttribute("data-page-style", "");
+      document.head.appendChild(n);
+    });
   }
 
   function swap(doc) {
@@ -202,6 +211,9 @@
   });
 
   history.replaceState({ y: window.scrollY }, "", location.href);
+  Array.prototype.forEach.call(document.head.querySelectorAll("style"), function (s) {
+    s.setAttribute("data-page-style", "");
+  });
   Array.prototype.forEach.call(document.querySelectorAll("body script[src]"), function (s) {
     if (CORE.indexOf(scriptName(s.getAttribute("src"))) === -1) s.setAttribute("data-page-script", "");
   });

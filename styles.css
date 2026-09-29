@@ -1816,8 +1816,10 @@ html.js .cm-options {
   .snd { margin-left: auto; margin-right: 8px; }
   .snd-menu { right: -52px; width: min(292px, calc(100vw - 40px)); }
 }
-@media (max-width: 480px) {
+@media (max-width: 900px) {
   .snd-meta { display: none; }        /* just play/pause beside the sound button */
+}
+@media (max-width: 480px) {
   .toast { border-radius: 18px; }
 }
 
