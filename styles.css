@@ -1820,3 +1820,21 @@ html.js .cm-options {
   .snd-meta { display: none; }        /* just play/pause beside the sound button */
   .toast { border-radius: 18px; }
 }
+
+/* Click Me: a small hop every few seconds says "press me" without words.
+   Stops on hover/focus and once the visitor has opened it (morph.js adds
+   .cm-seen, remembered for the session). */
+@keyframes cm-hop {
+  0%, 62% { transform: translateY(0); }
+  68%     { transform: translateY(-6px); }
+  74%     { transform: translateY(0); }
+  79%     { transform: translateY(-2.5px); }
+  84%, 100% { transform: translateY(0); }
+}
+html.js .cm[data-state="idle"]:not(.cm-seen):not(:hover):not(:focus-within) {
+  animation: cm-hop 3.2s ease-in-out 1.2s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .cm { animation: none !important; }
+}
+.no-anim .cm { animation: none !important; }

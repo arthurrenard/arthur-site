@@ -116,6 +116,7 @@
     this.hp = new Spring(0, "fade");
 
     root.classList.add("cm-live");
+    try { if (sessionStorage.getItem("cm-seen")) root.classList.add("cm-seen"); } catch (e) {}
     this.items.forEach(function (a) { a.setAttribute("tabindex", "-1"); });
     this.measure(true);
 
@@ -203,6 +204,11 @@
     this.labelP.set(open ? 0 : 1, open ? 0 : 110);
     this.optsP.set(open ? 1 : 0, open ? 110 : 0);
     if (!open) this.highlight(null);
+    if (open) {
+      // They found it: stop the attention hop for the rest of the visit.
+      this.root.classList.add("cm-seen");
+      try { sessionStorage.setItem("cm-seen", "1"); } catch (e) {}
+    }
     fx(open ? "open" : "close");
     this.animate();
   };
