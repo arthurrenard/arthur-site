@@ -568,11 +568,72 @@ p { text-wrap: pretty; }
 }
 .link-arrow .arr { transition: transform 0.3s var(--ease); }
 .link-arrow:hover { border-color: var(--ink-on-light); }
+
+/* TLDR + recommendation side by side (recommendation on the left) */
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.intro-grid .rec-card { grid-column: 1; grid-row: 1; }
+.intro-grid .intro-panel { grid-column: 2; grid-row: 1; }
+.rec-card {
+  margin: 0;
+  padding: clamp(32px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.rec-head { display: flex; align-items: center; gap: 16px; }
+.rec-photo {
+  flex: none;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--sage-light);
+  box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5);
+}
+.rec-who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rec-name { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.rec-role { font-size: 14px; color: var(--white-soft); }
+.rec-rel { font-size: 13px; color: var(--sage-light); }
+.rec-quote { margin: 0; position: relative; padding-top: 30px; }
+.rec-quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -14px; left: -4px;
+  font-size: 72px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--sage);
+  opacity: 0.7;
+}
+.rec-quote p {
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 20px);
+  line-height: 1.65;
+  color: var(--white-soft);
+}
+.rec-source {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  text-decoration: none;
+  font-size: 13.5px;
+  color: var(--white-faint);
+  transition: color 0.3s;
+}
+.rec-source:hover { color: var(--white); }
 .link-arrow:hover .arr { transform: translateX(4px); }
 
 @media (max-width: 860px) {
   .pillar-grid { grid-template-columns: 1fr; }
   .pillar { min-height: 0; }
+  .intro-grid { grid-template-columns: 1fr; }
+  .intro-grid .rec-card, .intro-grid .intro-panel { grid-column: auto; grid-row: auto; }
   .hero-grid { grid-template-columns: 1fr; }
   .hero-portrait { grid-row: 1; max-width: 360px; margin-bottom: 10px; }
 }
