@@ -1,7 +1,7 @@
 /* ===========================================================
    Arthur Renard — sound: music toggle, mini player, UI clicks, toasts
    A sound button in the nav opens a menu of toggles. Turning Music on
-   plays a royalty-free loop ("Sweet September" by Arulo, Mixkit free
+   plays a royalty-free loop ("Hooligans" by Michael Ramir C., Mixkit free
    license) and the button grows into a mini player: play/pause that
    morphs, a draggable progress bar, and volume in the menu. Interface
    sounds are tiny synthesized clicks (no audio files). Nothing ever
@@ -14,8 +14,9 @@
   if (!nav || !window.Motion) return;
   var M = window.Motion, Spring = M.Spring;
 
-  var TRACK = { src: "music/sweet-september.m4a", title: "Sweet September", artist: "Arulo" };
-  var KEY = { music: "snd-music", vol: "snd-vol", ui: "snd-ui", time: "snd-time" };
+  var TRACK = { src: "music/hooligans.m4a", title: "Hooligans", artist: "Michael Ramir C." };
+  // The saved position is per track, so switching songs never resumes mid-way.
+  var KEY = { music: "snd-music", vol: "snd-vol", ui: "snd-ui", time: "snd-time:" + TRACK.src };
 
   function get(k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }
   function put(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
@@ -235,7 +236,7 @@
         '<span class="snd-row-text"><span class="snd-row-title" data-i18n="sndUi">Interface sounds</span><span class="snd-row-sub" data-i18n="sndUiSub">Soft clicks on buttons</span></span>' +
         '<button class="sw" type="button" role="switch" aria-checked="false" data-sw="ui"><span class="sw-fill"></span><span class="sw-knob"></span></button>' +
       '</div>' +
-      '<p class="snd-credit"><span data-i18n="sndCredit">Music</span>: “Sweet September” · Arulo · ' +
+      '<p class="snd-credit"><span data-i18n="sndCredit">Music</span>: <span class="snd-credit-track"></span> · ' +
         '<a href="https://mixkit.co/free-stock-music/" target="_blank" rel="noopener">Mixkit</a></p>' +
     '</div>';
   nav.insertBefore(root, nav.querySelector(".nav-toggle"));
@@ -254,6 +255,7 @@
   var pp1 = root.querySelector(".pp1"), pp2 = root.querySelector(".pp2");
   root.querySelector(".snd-title").textContent = TRACK.title;
   root.querySelector(".snd-row-sub").textContent = TRACK.title + " · " + TRACK.artist;
+  root.querySelector(".snd-credit-track").textContent = "“" + TRACK.title + "” · " + TRACK.artist;
   if (window.SiteI18n && window.SiteI18n.refresh) window.SiteI18n.refresh(root);
 
   function labels() {
