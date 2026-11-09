@@ -378,6 +378,40 @@
       es: `Recomendación de LinkedIn · septiembre de 2026 <span class="arr">→</span>`,
     },
 
+    /* ---- Work · STRANDED ---- */
+    roleStranded: {
+      fr: `Projet personnel · jeu 3D dans le navigateur`,
+      ko: `개인 프로젝트 · 브라우저 3D 게임`,
+      es: `Proyecto personal · juego 3D en el navegador`,
+    },
+    strandedP: {
+      fr: `Un jeu de survie à la première personne qui tourne dans le navigateur. Après un naufrage, vous échouez sur une île forestière et devez rester au chaud, nourri et en vie jusqu'à reconstruire un bateau à partir de l'épave ou être repéré par l'équipe de secours. Tout est généré par le code : l'île, environ <strong>3 400 arbres</strong>, les animaux, les textures et chaque effet sonore.`,
+      ko: `브라우저에서 실행되는 1인칭 서바이벌 게임입니다. 난파 후 숲이 우거진 섬에 표류한 플레이어는 잔해로 배를 다시 만들거나 수색대에 발견될 때까지 몸을 따뜻하게 하고 먹을 것을 찾으며 살아남아야 합니다. 섬, 약 <strong>3,400그루의 나무</strong>, 동물, 텍스처, 모든 효과음까지 전부 코드로 생성됩니다.`,
+      es: `Un juego de supervivencia en primera persona que se ejecuta en el navegador. Tras un naufragio, llegas a una isla boscosa y tienes que mantenerte abrigado, alimentado y con vida hasta reconstruir un barco con los restos o hasta que te vea el equipo de búsqueda. Todo se genera con código: la isla, unos <strong>3.400 árboles</strong>, los animales, las texturas y cada efecto de sonido.`,
+    },
+    strandedNext: {
+      fr: `L'objectif, à terme, est d'en faire un <strong>jeu .io multijoueur</strong>.`,
+      ko: `앞으로의 목표는 이 게임을 <strong>멀티플레이어 .io 게임</strong>으로 발전시키는 것입니다.`,
+      es: `El objetivo es convertirlo, con el tiempo, en un <strong>juego .io multijugador</strong>.`,
+    },
+    strandedStatLabel: {
+      fr: `fichier image ou audio : tout est généré par le code`,
+      ko: `개의 이미지·오디오 파일: 전부 코드로 생성`,
+      es: `archivos de imagen o audio: todo se genera con código`,
+    },
+    strandedFig: {
+      fr: `Fonctionne dans un navigateur d'ordinateur, avec clavier et souris`,
+      ko: `키보드와 마우스가 있는 데스크톱 브라우저에서 실행됩니다`,
+      es: `Funciona en un navegador de escritorio con teclado y ratón`,
+    },
+    strandedPlay: {
+      fr: `Jouer <span class="arr">→</span>`,
+      ko: `플레이하기 <span class="arr">→</span>`,
+      es: `Jugar <span class="arr">→</span>`,
+    },
+    strandedCode: { fr: `Voir le code`, ko: `코드 보기`, es: `Ver el código` },
+    chipProcgen:  { fr: `Génération procédurale`, ko: `절차적 생성`, es: `Generación procedural` },
+
     /* ---- Work · Bright.AI ---- */
     roleAIIntern: {
       fr: `Stagiaire en IA`,
