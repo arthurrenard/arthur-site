@@ -432,9 +432,9 @@
 
     /* ---- Work · Microfinance · Johnson & Johnson ---- */
     microJnJ: {
-      fr: `Je suis désormais <strong>chef de projet</strong> pour <strong>Johnson &amp; Johnson</strong>, en conseil en IA : identifier où l'IA peut vraiment faire la différence dans leur travail, quels outils précis conviennent à chaque cas, et éventuellement développer ces outils moi-même.`,
-      ko: `현재 <strong>Johnson &amp; Johnson</strong>의 <strong>프로젝트 매니저</strong>로서 AI 컨설팅을 하고 있습니다. AI가 업무에서 실질적인 차이를 만들 수 있는 부분과 각 사례에 맞는 구체적인 도구를 찾아내고, 필요하면 그 도구를 직접 개발할 수도 있습니다.`,
-      es: `Ahora soy <strong>Gerente de Proyecto</strong> para <strong>Johnson &amp; Johnson</strong>, haciendo consultoría de IA: identificar dónde la IA puede marcar una diferencia real en su trabajo, qué herramientas concretas encajan en cada caso y, posiblemente, desarrollar esas herramientas yo mismo.`,
+      fr: `Je suis désormais <strong>chef de projet</strong> et je prépare notre projet de <strong>conseil en IA</strong> avec <strong>Johnson &amp; Johnson</strong>, qui démarre au prochain semestre. Pour l'instant, nous en définissons le périmètre : où l'IA pourrait vraiment faire la différence dans leur travail, quels outils précis conviennent à chaque cas, et ce que je pourrais développer moi-même.`,
+      ko: `현재 <strong>프로젝트 매니저</strong>로서 다음 학기에 시작하는 <strong>Johnson &amp; Johnson</strong>과의 <strong>AI 컨설팅</strong> 프로젝트를 준비하고 있습니다. 지금은 AI가 그들의 업무에서 실질적인 차이를 만들 수 있는 부분, 각 사례에 맞는 구체적인 도구, 그리고 제가 직접 만들 수 있는 것을 정리하며 프로젝트 범위를 잡고 있습니다.`,
+      es: `Ahora soy <strong>Gerente de Proyecto</strong> y estoy preparando nuestro proyecto de <strong>consultoría de IA</strong> con <strong>Johnson &amp; Johnson</strong>, que arranca el próximo semestre. Por ahora estamos definiendo su alcance: dónde la IA podría marcar una diferencia real en su trabajo, qué herramientas concretas encajan en cada caso y qué podría desarrollar yo mismo.`,
     },
     chipAIConsulting: { fr: `Conseil en IA`, ko: `AI 컨설팅`, es: `Consultoría de IA` },
 
