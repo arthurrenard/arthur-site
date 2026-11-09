@@ -1064,6 +1064,7 @@ body.glb-lock { overflow: hidden; }
 .project-points strong { color: var(--white); font-weight: 600; }
 
 .tag-row { display: flex; flex-wrap: wrap; gap: 9px; }
+.project-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
 .chip {
   font-size: 13px;
   white-space: nowrap;
