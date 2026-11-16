@@ -380,29 +380,59 @@
 
     /* ---- Work · STRANDED ---- */
     roleStranded: {
-      fr: `Projet personnel · jeu 3D dans le navigateur`,
-      ko: `개인 프로젝트 · 브라우저 3D 게임`,
-      es: `Proyecto personal · juego 3D en el navegador`,
+      fr: `Projet personnel · jeu 3D multijoueur dans le navigateur`,
+      ko: `개인 프로젝트 · 브라우저 멀티플레이어 3D 게임`,
+      es: `Proyecto personal · juego 3D multijugador en el navegador`,
+    },
+    strandedLive: {
+      fr: `<span class="status-dot"></span>Le multijoueur est en ligne`,
+      ko: `<span class="status-dot"></span>멀티플레이어 운영 중`,
+      es: `<span class="status-dot"></span>El multijugador ya está activo`,
     },
     strandedP: {
-      fr: `Un jeu de survie à la première personne qui tourne dans le navigateur. Après un naufrage, vous échouez sur une île forestière et devez rester au chaud, nourri et en vie jusqu'à reconstruire un bateau à partir de l'épave ou être repéré par l'équipe de secours. Tout est généré par le code : l'île, environ <strong>3 400 arbres</strong>, les animaux, les textures et chaque effet sonore.`,
-      ko: `브라우저에서 실행되는 1인칭 서바이벌 게임입니다. 난파 후 숲이 우거진 섬에 표류한 플레이어는 잔해로 배를 다시 만들거나 수색대에 발견될 때까지 몸을 따뜻하게 하고 먹을 것을 찾으며 살아남아야 합니다. 섬, 약 <strong>3,400그루의 나무</strong>, 동물, 텍스처, 모든 효과음까지 전부 코드로 생성됩니다.`,
-      es: `Un juego de supervivencia en primera persona que se ejecuta en el navegador. Tras un naufragio, llegas a una isla boscosa y tienes que mantenerte abrigado, alimentado y con vida hasta reconstruir un barco con los restos o hasta que te vea el equipo de búsqueda. Todo se genera con código: la isla, unos <strong>3.400 árboles</strong>, los animales, las texturas y cada efecto de sonido.`,
+      fr: `Un jeu de survie à la première personne qui tourne dans le navigateur, désormais en multijoueur en ligne : jusqu'à <strong>8 naufragés</strong> partagent une même île grâce à un code de salon à 6 lettres. Après un naufrage, vous devez rester au chaud, nourri et en vie jusqu'à reconstruire un bateau à partir de l'épave ou être repéré par l'équipe de secours, à plusieurs ou en solo.`,
+      ko: `브라우저에서 실행되는 1인칭 서바이벌 게임으로, 이제 온라인 멀티플레이어를 지원합니다. 6자리 로비 코드로 최대 <strong>8명의 표류자</strong>가 같은 섬을 공유합니다. 난파 후 잔해로 배를 다시 만들거나 수색대에 발견될 때까지 몸을 따뜻하게 하고 먹을 것을 찾으며 살아남아야 하며, 함께 또는 혼자 플레이할 수 있습니다.`,
+      es: `Un juego de supervivencia en primera persona que se ejecuta en el navegador, ahora con multijugador en línea: hasta <strong>8 náufragos</strong> comparten una misma isla con un código de sala de 6 letras. Tras un naufragio, tienes que mantenerte abrigado, alimentado y con vida hasta reconstruir un barco con los restos o hasta que te vea el equipo de búsqueda, en grupo o en solitario.`,
     },
-    strandedNext: {
-      fr: `L'objectif, à terme, est d'en faire un <strong>jeu .io multijoueur</strong>.`,
-      ko: `앞으로의 목표는 이 게임을 <strong>멀티플레이어 .io 게임</strong>으로 발전시키는 것입니다.`,
-      es: `El objetivo es convertirlo, con el tiempo, en un <strong>juego .io multijugador</strong>.`,
+    strandedHoodH: { fr: `Sous le capot`, ko: `기술 구조`, es: `Por dentro` },
+    strandedB1: {
+      fr: `<strong>Réseau :</strong> un relais WebSocket Node.js d'environ 300 lignes sur Fly.io, sans base de données ni comptes, pour environ 2 $ par mois. Les clients envoient leur état à 15 Hz, le serveur renvoie des instantanés à 20 Hz, et les autres joueurs sont affichés avec 120 ms de retard pour un mouvement fluide.`,
+      ko: `<strong>네트워킹:</strong> Fly.io에서 돌아가는 약 300줄짜리 Node.js WebSocket 릴레이로, 데이터베이스나 계정 없이 월 약 2달러로 운영됩니다. 클라이언트는 15Hz로 상태를 보내고 서버는 20Hz로 스냅샷을 보내며, 다른 플레이어는 120ms 과거 시점으로 그려져 부드럽게 움직입니다.`,
+      es: `<strong>Red:</strong> un relé WebSocket de Node.js de unas 300 líneas en Fly.io, sin base de datos ni cuentas, por unos 2 $ al mes. Los clientes envían su estado a 15 Hz, el servidor envía instantáneas a 20 Hz y los demás jugadores se dibujan 120 ms en el pasado para que se muevan con fluidez.`,
     },
-    strandedStatLabel: {
-      fr: `fichier image ou audio : tout est généré par le code`,
-      ko: `개의 이미지·오디오 파일: 전부 코드로 생성`,
-      es: `archivos de imagen o audio: todo se genera con código`,
+    strandedB2: {
+      fr: `<strong>Synchronisation pilotée par l'hôte :</strong> le premier joueur arrivé est l'hôte, et sa graine, sa difficulté et son horloge s'imposent ; s'il part, le joueur suivant prend le relais. Récoltes, feux, constructions, arbres abattus et construction du bateau sont appliqués une seule fois sur chaque machine, sans écho, les amis mettent en commun leurs matériaux pour le bateau, et les salons survivent à un redémarrage du serveur.`,
+      ko: `<strong>호스트 기준 동기화:</strong> 먼저 들어온 플레이어가 호스트가 되며 그 시드, 난이도, 시계가 기준이 됩니다. 호스트가 나가면 다음 플레이어가 이어받습니다. 채집, 불, 건축물, 쓰러진 나무, 배 건조가 모든 기기에 에코 없이 한 번씩만 적용되고, 친구들은 배를 위한 재료를 함께 모으며, 서버가 재시작되어도 로비가 유지됩니다.`,
+      es: `<strong>Sincronización dirigida por el anfitrión:</strong> el primer jugador en entrar es el anfitrión, y su semilla, su dificultad y su reloj mandan; si se va, el siguiente jugador toma el relevo. Recolecciones, fogatas, construcciones, árboles talados y la construcción del barco se aplican una sola vez en cada máquina, sin eco; los amigos juntan materiales para el barco, y las salas sobreviven a un reinicio del servidor.`,
     },
+    strandedB3: {
+      fr: `<strong>Une graine, des mondes identiques :</strong> le terrain vient de bruit simplex en couches, et environ 3 400 arbres de 8 espèces sont placés selon le biome avec un espacement de type disque de Poisson, le tout à partir d'un seul générateur aléatoire à graine. Chaque joueur construit la même île localement, si bien que seuls les changements passent par le réseau.`,
+      ko: `<strong>하나의 시드, 동일한 세계:</strong> 지형은 여러 겹의 심플렉스 노이즈로 만들어지고, 8종 약 3,400그루의 나무가 바이옴에 따라 푸아송 디스크 방식의 간격으로 배치되며, 모두 하나의 시드 기반 난수 생성기에서 나옵니다. 모든 플레이어가 같은 섬을 각자 생성하므로 네트워크로는 변경 사항만 오갑니다.`,
+      es: `<strong>Una semilla, mundos idénticos:</strong> el terreno sale de ruido simplex en capas, y unos 3.400 árboles de 8 especies se colocan según el bioma con un espaciado tipo disco de Poisson, todo a partir de un solo generador aleatorio con semilla. Cada jugador construye la misma isla en local, así que solo los cambios viajan por la red.`,
+    },
+    strandedB4: {
+      fr: `<strong>Rien de préfabriqué :</strong> les modèles, les textures et chaque son sont générés par le code, avec un audio synthétisé en direct via la Web Audio API, son positionnel et effet Doppler sur les véhicules compris.`,
+      ko: `<strong>미리 만든 것 없음:</strong> 모델, 텍스처, 모든 소리가 코드로 생성되며, 오디오는 Web Audio API로 실시간 합성되고 탈것의 입체 음향과 도플러 효과까지 포함합니다.`,
+      es: `<strong>Nada prefabricado:</strong> los modelos, las texturas y cada sonido se generan con código, con audio sintetizado en vivo mediante la Web Audio API, incluidos el sonido posicional y el efecto Doppler en los vehículos.`,
+    },
+    strandedB5: {
+      fr: `<strong>Performance :</strong> les arbres lointains passent à des maillages simplifiés reconstruits à partir de la même séquence aléatoire, ce qui réduit d'environ 60 % les triangles des arbres (la vue de départ est passée de 2,67 M à 1,8 M de triangles), avec des préréglages de qualité et une résolution adaptative.`,
+      ko: `<strong>성능:</strong> 멀리 있는 나무는 같은 난수 순서로 다시 만든 저해상도 메시로 바뀌어 나무 삼각형 수가 약 60% 줄었고(시작 지점 화면이 267만 개에서 180만 개로), 품질 프리셋과 자동 해상도 조절도 갖췄습니다.`,
+      es: `<strong>Rendimiento:</strong> los árboles lejanos cambian a mallas de bajo detalle reconstruidas con la misma secuencia aleatoria, lo que reduce un ~60 % los triángulos de los árboles (la vista inicial pasó de 2,67 M a 1,8 M de triángulos), además de ajustes de calidad y resolución adaptativa.`,
+    },
+    strandedB6: {
+      fr: `<strong>Tests :</strong> plus de 20 suites de tests, dont des tests serveur qui pilotent de vrais clients WebSocket ; GitHub Actions lance les vérifications à chaque push avant de déployer.`,
+      ko: `<strong>테스트:</strong> 실제 WebSocket 클라이언트를 구동하는 서버 테스트를 포함해 20개가 넘는 테스트 스위트가 있으며, GitHub Actions가 푸시할 때마다 배포 전에 검사를 실행합니다.`,
+      es: `<strong>Pruebas:</strong> más de 20 suites de pruebas, incluidas pruebas de servidor que manejan clientes WebSocket reales; GitHub Actions ejecuta las comprobaciones en cada push antes de desplegar.`,
+    },
+    strandedSpec1: { fr: `joueurs par salon`, ko: `로비당 플레이어`, es: `jugadores por sala` },
+    strandedSpec2: { fr: `instantanés serveur`, ko: `서버 스냅샷`, es: `instantáneas del servidor` },
+    strandedSpec3: { fr: `arbres procéduraux, une graine`, ko: `절차적 나무, 하나의 시드`, es: `árboles procedurales, una semilla` },
+    strandedSpec4: { fr: `fichier image ou audio`, ko: `이미지·오디오 파일`, es: `archivos de imagen o audio` },
     strandedFig: {
-      fr: `Fonctionne dans un navigateur d'ordinateur, avec clavier et souris`,
-      ko: `키보드와 마우스가 있는 데스크톱 브라우저에서 실행됩니다`,
-      es: `Funciona en un navegador de escritorio con teclado y ratón`,
+      fr: `Un autre naufragé au bord du lac, vu en direct via le serveur multijoueur. Nécessite un navigateur d'ordinateur avec clavier et souris.`,
+      ko: `멀티플레이어 서버를 통해 실시간으로 본 호숫가의 다른 표류자. 키보드와 마우스가 있는 데스크톱 브라우저가 필요합니다.`,
+      es: `Otro náufrago junto al lago, visto en directo a través del servidor multijugador. Requiere un navegador de escritorio con teclado y ratón.`,
     },
     strandedPlay: {
       fr: `Jouer <span class="arr">→</span>`,
