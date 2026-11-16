@@ -30,7 +30,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <div class="bg-field"></div>
@@ -216,12 +216,24 @@
             </div>
             <div class="project-intro">
               <h2>STRANDED: Driftwood Isle</h2>
-              <span class="role" data-i18n="roleStranded">Personal project · 3D browser game</span>
-              <p data-i18n="strandedP">A first-person survival game that runs in your browser. You wash up on a forest island after a shipwreck and have to stay warm, fed and alive until you rebuild a boat from the wreckage or get spotted by the search party. Everything is generated in code: the island, about <strong>3,400 trees</strong>, the animals, the textures and every sound effect.</p>
-              <p data-i18n="strandedNext">The goal is to eventually turn it into a <strong>multiplayer .io game</strong>.</p>
+              <span class="role" data-i18n="roleStranded">Personal project · multiplayer 3D browser game</span>
+              <span class="status-now" data-i18n="strandedLive"><span class="status-dot"></span>Multiplayer is live</span>
+              <p data-i18n="strandedP">A first-person survival game that runs in your browser, now with online multiplayer: up to <strong>8 castaways</strong> share one island through a 6-letter lobby code. You wash up after a shipwreck and have to stay warm, fed and alive until you rebuild a boat from the wreckage or get spotted by the search party, together or solo.</p>
+              <h3 class="project-sub" data-i18n="strandedHoodH">Under the hood</h3>
+              <ul class="project-points">
+                <li data-i18n="strandedB1"><strong>Networking:</strong> a ~300-line Node.js WebSocket relay on Fly.io, with no database or accounts, for about $2 a month. Clients send their state at 15 Hz, the server sends 20 Hz snapshots, and remote players are drawn 120 ms in the past so they move smoothly.</li>
+                <li data-i18n="strandedB2"><strong>Host-authoritative sync:</strong> the first player in hosts, and their seed, difficulty and clock win; if they leave, the next player takes over. Harvests, fires, buildings, felled trees and the boat build are applied once on every machine with no echo, friends pool materials for the boat, and lobbies survive a server restart.</li>
+                <li data-i18n="strandedB3"><strong>One seed, identical worlds:</strong> the terrain comes from layered simplex noise, and ~3,400 trees of 8 species are placed by biome with Poisson-disc-style spacing, all from one seeded random generator. Every player builds the same island locally, so only changes cross the network.</li>
+                <li data-i18n="strandedB4"><strong>Nothing pre-made:</strong> the models, textures and every sound are generated in code, with audio synthesized live through the Web Audio API, including positional sound and Doppler on vehicles.</li>
+                <li data-i18n="strandedB5"><strong>Performance:</strong> distant trees swap to low-detail meshes rebuilt from the same random sequence, cutting tree triangles by ~60% (the spawn view dropped from 2.67M to 1.8M triangles), plus quality presets and automatic resolution scaling.</li>
+                <li data-i18n="strandedB6"><strong>Testing:</strong> 20+ test suites, including server tests that drive real WebSocket clients; GitHub Actions runs the checks on every push before deploying.</li>
+              </ul>
               <div class="tag-row">
                 <span class="chip">Three.js</span>
                 <span class="chip">WebGL</span>
+                <span class="chip">WebSockets</span>
+                <span class="chip">Node.js</span>
+                <span class="chip">Fly.io</span>
                 <span class="chip" data-i18n="chipProcgen">Procedural generation</span>
                 <span class="chip">Claude</span>
               </div>
@@ -231,17 +243,19 @@
               </div>
             </div>
           </div>
-          <div class="project-stat glass">
-            <div class="stat-num">0</div>
-            <div class="stat-label" data-i18n="strandedStatLabel">image or audio files: it's all generated in code</div>
+          <div class="project-specs">
+            <div class="spec glass"><div class="spec-num">8</div><div class="spec-label" data-i18n="strandedSpec1">players per lobby</div></div>
+            <div class="spec glass"><div class="spec-num">20 Hz</div><div class="spec-label" data-i18n="strandedSpec2">server snapshots</div></div>
+            <div class="spec glass"><div class="spec-num">~3,400</div><div class="spec-label" data-i18n="strandedSpec3">procedural trees, one seed</div></div>
+            <div class="spec glass"><div class="spec-num">0</div><div class="spec-label" data-i18n="strandedSpec4">image or audio files</div></div>
           </div>
           <div class="project-shots">
             <figure>
               <a class="shot-link" href="https://arthurrenard.github.io/stranded-by-arthur/" target="_blank" rel="noopener" aria-label="Play STRANDED: Driftwood Isle">
                 <image-slot id="stranded-shot" class="shot" shape="rounded" radius="16"
-                  src="images/stranded-lake.jpg" placeholder="STRANDED screenshot"></image-slot>
+                  src="images/stranded-coop.jpg" placeholder="Two players at the lake in STRANDED"></image-slot>
               </a>
-              <figcaption data-i18n="strandedFig">Runs in a desktop browser with a keyboard and mouse</figcaption>
+              <figcaption data-i18n="strandedFig">Another castaway at the lake, seen live through the multiplayer server. Needs a desktop browser with a keyboard and mouse.</figcaption>
             </figure>
           </div>
         </article>
@@ -360,7 +374,7 @@
 
   <script src="image-slot.js"></script>
   <script src="app.js?v=3"></script>
-  <script src="i18n.js?v=3"></script>
+  <script src="i18n.js?v=4"></script>
   <script src="router.js?v=3"></script>
   <script src="motion.js?v=2"></script>
   <script src="morph.js?v=2"></script>
